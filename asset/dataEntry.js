@@ -58,7 +58,7 @@ database.ref().on("value", function(snap){
 
 		$("#displayCustomerInfo").append(customerInfoTr);
 		var thisObject=sv[key];
-		var addrFormat = thisObject.street1+thisObject.street2+thisObject.city+thisObject.state+thisObject.zip;
+		var addrFormat = thisObject.street1+ ' ' + thisObject.street2+', ' +thisObject.city+', ' +thisObject.state+' ' +thisObject.zip;
 
 		nameTd.html(thisObject.name);
 		emailTd.html(thisObject.email);
@@ -70,10 +70,6 @@ database.ref().on("value", function(snap){
 		rateTd.html(thisObject.rate);
 	}
 });
-
-
-
-
 
 
 
