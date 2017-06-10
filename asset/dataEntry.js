@@ -15,17 +15,22 @@ var database=firebase.database();
 $("#addCustomer").on("click", function(snap){
 	event.preventDefault();
 	database.ref().push({
-		name:$("#nameInputTag").val().trim(),
-		email:$("#emailInputTag").val().trim(),
-		phone:$("#phoneInputTag").val().trim(),
-		addr:$("#addrInputTag").val().trim(),
-		startDate:$("#startDateInputTag").val().trim(),
-		endDate:$("#endDateInputTag").val().trim(),
-		frequency:$("#frequencyInputTag").val().trim(),
-		rate:$("#rateInputTag").val().trim(),
+		name:$("#name_id").val().trim(),
+		street1:$("#street1_id").val().trim(),
+		street2:$("#street2_id").val().trim(),
+		city:$("#city_id").val().trim(),
+		state:$("#state_id").val().trim(),
+		zip:$("#zip_id").val().trim(),
+		email:$("#email_id").val().trim(),
+		phone:$("#phone_id").val().trim(),
+		startDate:$("#startDate_id").val().trim(),
+		endDate:$("#endDate_id").val().trim(),
+		frequency:$("#frequency_id").val().trim(),
+		rate:$("#rate_id").val().trim(),
 	});
 	
 });
+
 
 database.ref().on("value", function(snap){
 	$("#displayCustomerInfo").empty();
@@ -53,17 +58,23 @@ database.ref().on("value", function(snap){
 
 		$("#displayCustomerInfo").append(customerInfoTr);
 		var thisObject=sv[key];
+		var addrFormat = thisObject.street1+thisObject.street2+thisObject.city+thisObject.state+thisObject.zip;
 
 		nameTd.html(thisObject.name);
 		emailTd.html(thisObject.email);
 		phoneTd.html(thisObject.phone);
-		addrTd.html(thisObject.addr);
+		addrTd.html(addrFormat);
 		startDateTd.html(thisObject.startDate);
 		endDateTd.html(thisObject.endDate);
 		frequencyTd.html(thisObject.frequency);
 		rateTd.html(thisObject.rate);
 	}
 });
+
+
+
+
+
 
 
     console.log( "ready!" );
