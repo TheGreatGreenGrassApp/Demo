@@ -4,31 +4,35 @@
 <head>
     <title>Great Green Grass App</title>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- Bootswatch Cosmos -->
     <link rel="stylesheet" type="text/css" href="./assets/CSS/bootswatch.css">
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="./assets/CSS/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./assets/CSS/style.css"> -->
+    <!-- CALENDAR CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/CSS/calendar.css">
     <!-- WEATHER JS -->
     <!-- JQUERY -->
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- LOGO -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">Great Green Grass</a>
-            </div>
-            <!-- LINKS TO OTHER PAGES -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="map.html">Map</a></li>
-                    <li><a href="calendar.html">Calendar</a></li>
-                </ul>
-            </div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- LOGO -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Great Green Grass</a>
         </div>
-    </nav>
+        <!-- LINKS TO OTHER PAGES -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="map.html">Map</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <div class="weather-container">
     <div class="row" id="forecast">
@@ -66,122 +70,98 @@
         </div>
     </div>
 </div>
-    <div class="container">
+<div class="container">
 
-        <h2>Agenda</h2>
-        <p class="lead">
-            This agenda viewer will let you see multiple events cleanly!
-        </p>
-        <div class="agenda">
-            <div class="table-responsive">
-                <table class="table table-condensed table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Event</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Single event in a single day -->
-                    <tr>
-                        <td class="agenda-date" class="active" rowspan="1">
-                            <div class="dayofmonth">26</div>
-                            <div class="dayofweek">Saturday</div>
-                            <div class="shortdate text-muted">July, 2014</div>
-                        </td>
-                        <td class="agenda-time">
-                            5:30 AM
-                        </td>
-                        <td class="agenda-events">
-                            <div class="agenda-event">
-                                <i class="glyphicon glyphicon-repeat text-muted" title="Repeating event"></i> 
-                                Fishing
-                            </div>
-                        </td>
-                    </tr>
+    <h2>Agenda</h2>
+    <p class="lead">
+        This agenda viewer will let you see multiple events cleanly!
+    </p>
+    <!--Add buttons to initiate auth sequence and sign out-->
+    temp location for these
+    <button id="authorize-button" style="display: none;">Authorize</button>
+    <button id="signout-button" style="display: none;">Sign Out</button>
+    <pre id="content"></pre>
+    <div class="agenda">
+        <div class="table-responsive">
+            <table class="table table-condensed table-bordered">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Event</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Single event in a single day -->
+                <tr>
+                    <td class="agenda-date" class="active" rowspan="1">
+                        <div class="dayofmonth">26</div>
+                        <div class="dayofweek">Saturday</div>
+                        <div class="shortdate text-muted">July, 2014</div>
+                    </td>
+                    <td class="agenda-time">
+                        5:30 AM
+                    </td>
+                    <td class="agenda-events">
+                        <div class="agenda-event">
+                            <i class="glyphicon glyphicon-repeat text-muted" title="Repeating event"></i> 
+                            Fishing
+                        </div>
+                    </td>
+                </tr>
 
-                    <!-- Multiple events in a single day (note the rowspan) -->
-                    <tr>
-                        <td class="agenda-date" class="active" rowspan="3">
-                            <div class="dayofmonth">24</div>
-                            <div class="dayofweek">Thursday</div>
-                            <div class="shortdate text-muted">July, 2014</div>
-                        </td>
-                        <td class="agenda-time">
-                            8:00 - 9:00 AM
-                        </td>
-                        <td class="agenda-events">
-                            <div class="agenda-event">
-                                Doctor's Appointment
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="agenda-time">
-                            10:15 AM - 12:00 PM
-                        </td>
-                        <td class="agenda-events">
-                            <div class="agenda-event">
-                                Meeting with executives
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="agenda-time">
-                            7:00 - 9:00 PM
-                        </td>
-                        <td class="agenda-events">
-                            <div class="agenda-event">
-                                Aria's dance recital
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                <!-- Multiple events in a single day (note the rowspan) -->
+                <tr>
+                    <td class="agenda-date" class="active" rowspan="3">
+                        <div class="dayofmonth">24</div>
+                        <div class="dayofweek">Thursday</div>
+                        <div class="shortdate text-muted">July, 2014</div>
+                    </td>
+                    <td class="agenda-time">
+                        8:00 - 9:00 AM
+                    </td>
+                    <td class="agenda-events">
+                        <div class="agenda-event">
+                            Doctor's Appointment
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="agenda-time">
+                        10:15 AM - 12:00 PM
+                    </td>
+                    <td class="agenda-events">
+                        <div class="agenda-event">
+                            Meeting with executives
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="agenda-time">
+                        7:00 - 9:00 PM
+                    </td>
+                    <td class="agenda-events">
+                        <div class="agenda-event">
+                            Aria's dance recital
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-<script type="text/javascript">
-// Weather API key
-var APIKey = "c3c6ec4b696245c5675ec13e3dfcd644";
-var city = "Cleveland";
-
-// Query URL to access weather data
-var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
-
-// AJAX call
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).done(function(response) {
-
-    console.log(queryURL);
-    console.log(response);
-
-    // For loop to find 0:00:00 forecasts for five days
-
-    for (var i=0; i<response.list.length; i++) {
-        console.log(response.list[i]);
-
-    }
-
-
-
-
-
-
-
-}); // Close AJAX Call function
+<script src="assets/lib/moment.js"></script>
+<!--<script src="assets/javascript/weather.js"></script>-->
+<script src="assets/javascript/google-calendar-auth.js"></script>
+<script src="assets/javascript/google-calendar-setup.js"></script>
+<script src="assets/javascript/google-calendar-operations.js"></script>
+<script src="assets/javascript/app.js"></script>
+<script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
-    <script src="assets/javascript/google-calendar-auth.js"></script>
-    <script src="assets/javascript/google-calendar-setup.js"></script>
-    <script src="assets/javascript/google-calendar-operations.js"></script>
-    <script src="assets/javascript/app.js"></script>
-    <script async defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};handleClientLoad()"
-            onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
-</body>
-</html>
+</
+body >
+< / html >

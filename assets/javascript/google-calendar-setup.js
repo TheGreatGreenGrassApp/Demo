@@ -12,31 +12,51 @@ function appendPre(message) {
 
 var calendarCheck, calendarObject;
 
-$(document).one('calendarAuthorized', function () {
+$(document).one('calendarAuthorized', setup);
+
+
+function setup() {
 	calendarCheck = checkForCalendar();
+
+	calendarCheck.then(
+		function(calendarResponse){
+			appendPre('Preparing to Populate Events');
+			console.log(calendarResponse);
+			if(calendarResponse.hasOwnProperty('id')){
+				console.log('get upcomming events');
+				listUpcomingEvents(calendarResponse.id)
+			}
+		},
+		function(result){
+			appendPre('Creating Calendar');
+			calendarObject = createSubCalendar();
+			console.log('create Calendar calendarObject', calendarObject);
+		});
 	if(calendarObject){
-		appendPre('Calendar Present');
-		console.log(calendarObject);
-		if(calendarObject.hasOwnProperty('id')){
-			listUpcomingEvents(calendarObject.id)
-		}
+
 	} else {
-		appendPre('Creating Calendar');
-		calendarObject = createSubCalendar();
-		console.log('create Calendar calendarObject', calendarObject);
+
 	}
-});
+}
 
 function checkForCalendar() {
-	gapi.client.calendar.calendarList.list().then(function (response) {
+	var dfr = $.Deferred();
+	var exists = false;
+	gapi.client.calendar.calendarList.list()
+		.then(function (response) {
 		console.log('list Calendars Response', response);
 		var calendars = response.result.items;
 		for(var i=0; i<calendars.length; i++){
 			if(calendars[i].summary){
 				if(calendars[i].summary === "GreatGreenGrass"){
-					return calendars[i];
+					appendPre('Calendar Present');
+					exists = true;
+					dfr.resolve(calendars[i]);
 				}
 			}
+		}
+		if(!exists) {
+			dfr.reject('none')
 		}
 		/*var responseStructure = {
 		 accessRole: "owner",
@@ -49,6 +69,8 @@ function checkForCalendar() {
 		 timeZone: "UTC"}*/
 		appendPre('No Related Calendar Present');
 	});
+
+	return dfr.promise();
 }
 
 
@@ -79,13 +101,21 @@ function listUpcomingEvents(calendarId) {
 	}).then(function (response) {
 		var events = response.result.items;
 		appendPre('Upcoming events:');
-
 		if (events.length > 0) {
+			var days = {};
 			for (i = 0; i < events.length; i++) {
 				var event = events[i];
 				var when = event.start.dateTime;
 				if (!when) {
 					when = event.start.date;
+					var date = when.slice(0,10);
+					if(days.hasOwnProperty(date)){
+						days[date].push(event);
+					} else {
+						days[date] = [];
+						days[date].push(event);
+					}
+
 				}
 				appendPre(event.summary + ' (' + when + ')')
 			}
