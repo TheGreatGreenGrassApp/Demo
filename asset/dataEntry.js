@@ -12,7 +12,7 @@ firebase.initializeApp(config);
 
 var database=firebase.database();
 
-$("#addCustomer").on("click", function(snap){
+$("#saveCustomerInfo").on("click", function(snap){
 	event.preventDefault();
 	database.ref().push({
 		name:$("#name_id").val().trim(),
@@ -25,26 +25,41 @@ $("#addCustomer").on("click", function(snap){
 		phone:$("#phone_id").val().trim(),
 		startDate:$("#startDate_id").val().trim(),
 		endDate:$("#endDate_id").val().trim(),
-		frequency:$("#frequency_id").val().trim(),
+		period:$("#period_id").val().trim(),
 		rate:$("#rate_id").val().trim(),
 	});
-	
+		console.log($("#phone_id").val().trim());
+		$("#name_id").val('');
+		$("#street1_id").val('');
+		$("#street2_id").val('');
+		$("#city_id").val('');
+		$("#state_id").val('');
+		$("#zip_id").val('');
+		$("#email_id").val('');
+		$("#phone_id").val('');
+		$("#startDate_id").val('');
+		$("#endDate_id").val('');
+		$("#period_id").val('');
+		$("#rate_id").val('');
 });
 
 
 database.ref().on("value", function(snap){
 	$("#displayCustomerInfo").empty();
 	var sv=snap.val();
+	var i=0;
 	for (var key in sv) {
 		var customerInfoTr = $("<tr>");
+
 		var nameTd = $("<td>");
 		var emailTd = $("<td>");
 		var phoneTd = $("<td>");
 		var addrTd = $("<td>");
 		var startDateTd = $("<td>");
 		var endDateTd = $("<td>");
-		var frequencyTd = $("<td>");
+		var periodTd = $("<td>");
 		var rateTd = $("<td>");
+
 
 		customerInfoTr.append(nameTd);
 		customerInfoTr.append(emailTd);
@@ -52,8 +67,9 @@ database.ref().on("value", function(snap){
 		customerInfoTr.append(addrTd);
 		customerInfoTr.append(startDateTd);
 		customerInfoTr.append(endDateTd);
-		customerInfoTr.append(frequencyTd);
+		customerInfoTr.append(periodTd);
 		customerInfoTr.append(rateTd);
+
 
 
 		$("#displayCustomerInfo").append(customerInfoTr);
@@ -66,9 +82,14 @@ database.ref().on("value", function(snap){
 		addrTd.html(addrFormat);
 		startDateTd.html(thisObject.startDate);
 		endDateTd.html(thisObject.endDate);
-		frequencyTd.html(thisObject.frequency);
+		periodTd.html(thisObject.period);
 		rateTd.html(thisObject.rate);
 	}
+});
+
+$( "#saveCustomerInfo" ).click(function() {
+  var showSaved = $("<p><font color='red'>Saved Successfully!</font></p>").fadeOut(500);
+  $(".modal-footer").prepend(showSaved); 
 });
 
 
