@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Great Green Grass App</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Bootswatch Cosmos -->
+    <link rel="stylesheet" type="text/css" href="./assets/CSS/bootswatch.css">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="./assets/CSS/style.css">
+    <!-- WEATHER JS -->
+    <!-- JQUERY -->
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- LOGO -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Great Green Grass</a>
+            </div>
+            <!-- LINKS TO OTHER PAGES -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="map.html">Map</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>
+<div class="weather-container">
+    <div class="row" id="forecast">
+        <div class="panel-group">
+            <div class="panel panel-default col-md-2 col-md-offset-1">
+                <div class="panel-heading 0">Panel heading without title</div>
+                <div class="panel-body" id="forecast-0">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-default col-md-2">
+                <div class="panel-heading 1">Panel heading without title</div>
+                <div class="panel-body" id="forecast-1">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-default col-md-2">
+                <div class="panel-heading 2">Panel heading without title</div>
+                <div class="panel-body" id="forecast-2">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-default col-md-2">
+                <div class="panel-heading 3">Panel heading without title</div>
+                <div class="panel-body" id="forecast-3">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-default col-md-2">
+                <div class="panel-heading 4">Panel heading without title</div>
+                <div class="panel-body" id="forecast-4">
+                    Panel content
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+<!-- moment JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+<!-- JS -->
+<script type="text/javascript">
+// Weather API key
+var APIKey = "c3c6ec4b696245c5675ec13e3dfcd644";
+var city = "Cleveland";
+
+// Query URL to access weather data
+var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
+
+// AJAX call
+$.ajax({
+    url: queryURL,
+    method: "GET"
+}).done(function(response) {
+
+    console.log(queryURL);
+    console.log(response);
+
+    // Array to hold response data
+    var responseArray = [];
+    var weatherArray = [];
+
+    // For loop to push forecast data into an array
+    for (var i = 0; i < response.list.length; i++) {
+        console.log(response.list[i]);
+
+        // Push response data into responseArray
+        responseArray.push(response.list[i]);
+        console.log(responseArray);
+
+        // Grab only the weather variables we need and push to weatherArray
+        weatherArray.push({
+            date: moment.unix(response.list[i].dt).format("MM/DD/YYYY"),
+            min_temp: response.list[i].main.temp_min,
+            max_temp: response.list[i].main.temp_max,
+            description: response.list[i].weather[0].description,
+            icon: response.list[i].weather[0].icon
+        });
+
+        console.log(weatherArray);
+
+    } // Close fill array for loop
+
+
+    // For loop to look through array and remove duplicate forecast data 
+    // Only need one forecast object per day (5 days total)
+    for (var i = 0; i < weatherArray.length; i++) {
+
+        var reduce = function(arr, prop) {
+            var result = [],
+                filterVal,
+                filters,
+                filterByVal = function(n) {
+                    if (n[prop] === filterVal) return true;
+                };
+            for (var i = 0; i < arr.length; i++) {
+                filterVal = arr[i][prop];
+                filters = result.filter(filterByVal);
+                if (filters.length === 0) result.push(arr[i]);
+            }
+            return result;
+        };
+
+        forecastArray = reduce(weatherArray, 'date');
+        console.log(forecastArray);
+
+    } // Close reduce for loop
+
+    // Append weather forecast into 5 panel display
+
+    for (var i = 0; i < forecastArray.length; i++) {
+
+        // Append date to panel header
+        $("." + i).html(forecastArray[i].date);
+
+        // Convert temps to Farenheit
+        // Celsius to Fahrenheit : (°C × 1.8) + 32 = °F
+        minTempF = Math.round(parseInt(forecastArray[i].min_temp - 273.15) * 1.8 + 32);
+        maxTempF = Math.round(parseInt(forecastArray[i].max_temp - 273.15) * 1.8 + 32);
+
+        // http://openweathermap.org/img/w/10d.png
+        // Create link to weather icon
+        var iconLink = "http://openweathermap.org/img/w/" + forecastArray[i].icon + ".png";
+
+
+        // Create a panel div to hold day's forecast info
+        var weatherDiv = "<div class= " + i + "" + "</div";
+
+        var imgDiv = ("<img src=" + iconLink + ">");
+
+        var descDiv = ("<h2>" + forecastArray[i].description + "</h2>");
+
+        var minDiv = ("<p> Min Temp:  " + minTempF + "</p>");
+        var maxDiv = ("<p> Max Temp:  " + maxTempF + "</p>");
+
+        // Append the weatherDiv to the panel body
+        $("#forecast-" + i).html('');
+        $("#forecast-" + i).append(imgDiv, descDiv, minDiv, maxDiv, );
+
+    } // Close weather forecast append for loop
+
+    console.log(forecastArray);
+
+}); // Close AJAX Call function
+</script>
+
+</html>
