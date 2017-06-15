@@ -29,25 +29,6 @@ function setup() {
                 console.log('get upcomming events');
                 localStorage.setItem('calendarId', calendarResponse.id);
                 listUpcomingEvents(calendarResponse.id);
-                var freq = 7;
-                var recur = "RRULE:FREQ=DAILY;UNTIL=20170928;INTERVAL="+freq;
-                var eventDetails = {
-                    description: "Cut the Great Green Grass!",
-                    location: 'cleveland',
-                    recurrence: [
-                        recur
-                        //"RRULE;FREQ=DAILY;UNTIL=201708015;INTERVAL="+ freq
-                        ],
-                    summary: 'The Great Will Grow!'
-                };
-                createEvent(calendarResponse.id, null, null, eventDetails)
-                    .then(function(response){
-                        console.log('createEvent Response', response);
-                    }, function(error){
-                        if(error.hasOwnProperty('allow')){
-                            console.log(error.msg);
-                        }
-                    })
             }
         },
         function (result) {
@@ -114,34 +95,24 @@ function createSubCalendar() {
 };
 
 function listUpcomingEvents(calendarId) {
+    var maxRetrieveDate = moment().add(5, 'days');
+    //  console.log(maxRetrieveDate.days());
+    // console.log(currentPlusFive);
     gapi.client.calendar.events.list({
         'calendarId': calendarId,
         'timeMin': (new Date()).toISOString(),
-        'showDeleted': false,
-        'singleEvents': true,
-        'maxResults': 10,
-        'orderBy': 'startTime'
+        // 'timeMax': maxRetrieveDate.format(),
+        'showDeleted': false
+        //'singleEvents': true,
+        //  'orderBy': 'startTime'
     }).then(function (response) {
         var events = response.result.items;
+        console.log('EventList Response', response);
         appendPre('Upcoming events:');
         if (events.length > 0) {
+            parseListedEvents(events);
             var days = {};
-            for (i = 0; i < events.length; i++) {
-                var event = events[i];
-                var when = event.start.dateTime;
-                if (!when) {
-                    when = event.start.date;
-                    var date = when.slice(0, 10);
-                    if (days.hasOwnProperty(date)) {
-                        days[date].push(event);
-                    } else {
-                        days[date] = [];
-                        days[date].push(event);
-                    }
 
-                }
-                appendPre(event.summary + ' (' + when + ')')
-            }
         } else {
             appendPre('No upcoming events found.');
         }
@@ -149,77 +120,92 @@ function listUpcomingEvents(calendarId) {
 }
 
 
-function checkCreatePermissions(id) {
-    var dfr = $.Deferred();
-    google.calendar.calendarList.get({"calendarId": id})
-        .then(function (response) {
-            console.log('checkCreatePErsmissions response', response);
-            switch (response.result.accessRole) {
-                case 'reader':
-                    appendPre('NOT AUTHORIZED TO CREATE EVENTS');
-                    dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
-                    break;
-                case 'writer':
-                    dfr.resolve();
-                   // createEvent(id, null, null, options);
-                    break;
-                case 'owner':
-                    dfr.resolve();
-                   // createEvent(id, null, null, options);
-                    break;
-                case 'freeBusyReader':
-                    dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
-                    appendPre('NOT AUTHORIZED TO CREATE EVENTS');
-                    break;
-                default:
-                    dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
-                    appendPre('NOT AUTHORIZED TO CREATE EVENTS');
+function parseListedEvents(events) {
+    //var maxRetrieveDate = ;
+    var upcomming = [];
+    for (var j = 0; j < 5; j++) {
+        var checkDate = moment().add(j, 'days');
+        upcomming.push([]);
+        for (var i = 0; i < events.length; i++) {
+            if (moment(events[i].start.dateTime).isSame(checkDate, 'day')) {
+                upcomming[j].push(events[i]);
+                events.splice(i, 1);
             }
-        });
-    return dfr.promise();
+        }
+    }
+    console.log(upcomming);
+    for (var j = 0; j < 5; j++) {
+        createDateEntries(j, upcomming[j])
+    }
+
+    createExtendedDateEntries(events)
+
+
 }
 
 
-function createEvent(id, startTime, endTime, options) {
-    var dfr = $.Deferred();
-    checkCreatePermissions(id)
-        .then(function(){
-            options = options ? options : {};
-            var start = startTime ? startTime :  new Date(2017, 7, 1, 9, 0, 0, 0);
-            var end = endTime ? endTime :  new Date(2017, 7, 1, 9, 0, 0, 0);
-            console.log(options);
-            var base = {
-                calendarId: id,
-                start: {
-                    // "date": '2017-07-01
-                    "dateTime": start,
-                    "timeZone": 'America/New_York'
-                },
-                end: {
-                    //  "date": date,
-                    "dateTime": end,
-                    "timeZone": 'America/New_York'
-                }
-            };
-
-            var request = Object.assign(base,  options);
-            console.log(request);
-            google.calendar.events.insert(request)
-                .then(function (response) {
-                    appendPre('Event Created');
-                    console.log(response);
-                    dfr.resolve(response);
-                }, function (error) {
-                    appendPre('Error Creating Event');
-                    console.log('error', error);
-                    dfr.reject(error);
-                })
-        }, function(rejected){
-            console.log(rejected);
-            dfr.reject({allow: false, msg: rejected});
-        });
-    return dfr.promise();
+function createDateEntries(offset, eventDate) {
+    $('#date-heading-' + offset).empty();
+    $('#date-' + offset).empty();
+    var date = moment().add(offset, 'days');
+    var dayTemplate = '<div class="dayofmonth">' + date.date() + '</div>' +
+        '<div class="dayofweek">' + date.format('dddd') + '</div>' +
+        '<div class="shortdate text-muted">' + date.format('MMM, YYYY') + '</div>';
+    $('#date-heading-' + offset).html(dayTemplate);
+    for (var i = 0; i < eventDate.length; i++) {
+        var eventTemplate = '<hr>' +
+            '<p>' + eventDate[i].description + '</p>' +
+            '<p>' + eventDate[i].location + '</p>' +
+            '<p>' + eventDate[i].summary + '</p>';
+        $('#date-' + offset).append(eventTemplate);
+        //eventDate[i]
+    }
 }
 
+
+function createExtendedDateEntries(events) {
+    var otherDays = {};
+    for (var i = 0; i < events.length; i++) {
+        var day = moment(events[i].start.dateTime).format('YYYYMMDD');
+        var keys = Object.keys(otherDays);
+        if(keys.indexOf(day) >= 0){
+            otherDays[day].push(events[i])
+        } else {
+            otherDays[day] = [events[i]];
+        }
+    }
+}
+
+
+function createExtendedEntriesHtml(additionalEvents) {
+    $('#extended-schedule').empty();
+
+
+    var keys = Object.keys(additionalEvents);
+    var date = moment().add(offset, 'days');
+
+    var baseTemplate = '<div class="panel panel-default col-md-2">' +
+        '<div class="panel-heading 4" id="date-heading-4">' +
+        '<div class="dayofmonth">' + date.date() + '</div>' +
+        '<div class="dayofweek">' + date.format('dddd') + '</div>' +
+        '<div class="shortdate text-muted">' + date.format('MMM, YYYY') + '</div>' +
+        '</div>' +
+        '<div class="panel-body" id="' + date.format() + '">' +
+        '    Panel content' +
+        ' </div>' +
+        ' </div>';
+
+    $('#extended-schedule').html(baseTemplate);
+
+    for (var i = 0; i < eventDate.length; i++) {
+
+        var eventTemplate = '<hr>' +
+            '<p>' + eventDate[i].description + '</p>' +
+            '<p>' + eventDate[i].location + '</p>' +
+            '<p>' + eventDate[i].summary + '</p>';
+        $('#date-' + offset).append(eventTemplate);
+        //eventDate[i]
+    }
+}
 
 
