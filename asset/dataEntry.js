@@ -1,5 +1,8 @@
 $( document ).ready(function() {
 // Initialize Firebase
+var isEdit =0;
+var dataKeyForEdit ;
+
 var config = {
   apiKey: "AIzaSyBfVb_K7kzA1Hee9Y8lBdI3spp9lnxhb48",
   authDomain: "project1-work-space.firebaseapp.com",
@@ -12,45 +15,54 @@ firebase.initializeApp(config);
 
 var database=firebase.database();
 
+$("#phone_id").mask('(000) 000-0000', {clearIfNotMatch: true});
+$("#zip_id").mask('00000', {clearIfNotMatch: true});
+
 $("#saveCustomerInfo").on("click", function(snap){
-	event.preventDefault();
-	database.ref().push({
-		name:$("#name_id").val().trim(),
-		street1:$("#street1_id").val().trim(),
-		street2:$("#street2_id").val().trim(),
-		city:$("#city_id").val().trim(),
-		state:$("#state_id").val().trim(),
-		zip:$("#zip_id").val().trim(),
-		email:$("#email_id").val().trim(),
-		phone:$("#phone_id").val().trim(),
-		startDate:$("#startDate_id").val().trim(),
-		endDate:$("#endDate_id").val().trim(),
-		period:$("#period_id").val().trim(),
-		rate:$("#rate_id").val().trim(),
-	});
-		console.log($("#phone_id").val().trim());
-		$("#name_id").val('');
-		$("#street1_id").val('');
-		$("#street2_id").val('');
-		$("#city_id").val('');
-		$("#state_id").val('');
-		$("#zip_id").val('');
-		$("#email_id").val('');
-		$("#phone_id").val('');
-		$("#startDate_id").val('');
-		$("#endDate_id").val('');
-		$("#period_id").val('');
-		$("#rate_id").val('');
+	snap.preventDefault();
+	var showSaved = $("<p><font color='red'>Saved Successfully!</font></p>").delay(1000).fadeOut(500);
+  	$(".modal-footer").prepend(showSaved);
+  	if (isEdit==0) {
+		database.ref().push({
+			name:$("#name_id").val().trim(),
+			street1:$("#street1_id").val().trim(),
+			street2:$("#street2_id").val().trim(),
+			city:$("#city_id").val().trim(),
+			state:$("#state_id").val().trim(),
+			zip:$("#zip_id").val().trim(),
+			email:$("#email_id").val().trim(),
+			phone:$("#phone_id").val().trim(),
+			startDate:$("#startDate_id").val().trim(),
+			endDate:$("#endDate_id").val().trim(),
+			period:$("#period_id").val().trim(),
+			rate:$("#rate_id").val().trim(),
+		});
+		$(".modal-form input, .modal-form textarea").val('');
+	}
+	else {
+		database.ref().child(dataKeyForEdit).set({
+			name:$("#name_id").val().trim(),
+			street1:$("#street1_id").val().trim(),
+			street2:$("#street2_id").val().trim(),
+			city:$("#city_id").val().trim(),
+			state:$("#state_id").val().trim(),
+			zip:$("#zip_id").val().trim(),
+			email:$("#email_id").val().trim(),
+			phone:$("#phone_id").val().trim(),
+			startDate:$("#startDate_id").val().trim(),
+			endDate:$("#endDate_id").val().trim(),
+			period:$("#period_id").val().trim(),
+			rate:$("#rate_id").val().trim(),
+		});
+	}
 });
 
 
 database.ref().on("value", function(snap){
 	$("#displayCustomerInfo").empty();
 	var sv=snap.val();
-
 	for (var key in sv) {
 		var thisObject=sv[key];
-
 		var name = thisObject.name;
 		var street1 = thisObject.street1;
 		var street2 = thisObject.street2;
@@ -102,6 +114,8 @@ database.ref().on("value", function(snap){
 		var editTd = $ ("<button> Edit </button>");
 		var removeTd = $("<button> Remove </button>");
 		editTd.addClass("editClass");
+		editTd.attr("data-toggle","modal");
+		editTd.attr("data-target","#addCustomerModal");
 		removeTd.addClass("removeClass");
 
 		customerInfoTr.append(nameTd);
@@ -129,18 +143,8 @@ database.ref().on("value", function(snap){
 		endDateTd.html(endDate);
 		periodTd.html(period);
 		rateTd.html(rate);
-
-		/*console.log(street1);
-		console.log(street2);
-		console.log(city);*/
 	}
 });
-
-$( "#saveCustomerInfo" ).click(function() {
-  var showSaved = $("<p><font color='red'>Saved Successfully!</font></p>").delay(1000).fadeOut(500);
-  $(".modal-footer").prepend(showSaved); 
-});
-
 
 $(document).on("click", ".removeClass", function (snap){
 	var street1 = $(this).siblings(":nth-child(4)").children().first();
@@ -149,19 +153,10 @@ $(document).on("click", ".removeClass", function (snap){
 	var state = city.next();
 	var zip = state.next();
 
-
-	
-	/*console.log(street2.attr("data-name"));
-	console.log(city.attr("data-name"));
-	console.log(state.attr("data-name"));
-	console.log(zip.attr("data-name"));*/
-
 	database.ref().once('value').then(function(snapshot) {
 		var sv=snapshot.val();
-  	
   		for (var key in sv) {
 			var thisObject=sv[key];
-
 			if (thisObject.street1 == street1.attr("data-name") &&
 				thisObject.street2 == street2.attr("data-name") &&
 				thisObject.city == city.attr("data-name") &&
@@ -171,17 +166,40 @@ $(document).on("click", ".removeClass", function (snap){
 				database.ref().child(key).remove();
 		}
 	}
-
 	});
 });
 
 
+
 $(document).on("click", ".editClass", function (snap){
+	isEdit = 1;
+	
+	var name = $(this).siblings().first();
+	var email = name.next();
+	var phone = email.next();
 	var street1 = $(this).siblings(":nth-child(4)").children().first();
 	var street2 = street1.next();
 	var city = street2.next().next();
 	var state = city.next();
 	var zip = state.next();
+	var startDate = phone.next().next();
+	var endDate = startDate.next();
+	var period = endDate.next();
+	var rate = period.next();
+
+	$("#exampleModalLongTitle").html("Edit Customer Information");
+	$("#name_id").val(name.attr("data-name"));
+	$("#street1_id").val(street1.attr("data-name"));
+	$("#street2_id").val(street2.attr("data-name"));
+	$("#city_id").val(city.attr("data-name"));
+	$("#state_id").val(state.attr("data-name"));
+	$("#zip_id").val(zip.attr("data-name"));
+	$("#email_id").val(email.attr("data-name"));
+	$("#phone_id").val(phone.attr("data-name"));
+	$("#startDate_id").val(startDate.attr("data-name"));
+	$("#endDate_id").val(endDate.attr("data-name"));
+	$("#period_id").val(period.attr("data-name"));
+	$("#rate_id").val(rate.attr("data-name"));
 
 	database.ref().once('value').then(function(snapshot) {
 		var sv=snapshot.val();
@@ -193,19 +211,24 @@ $(document).on("click", ".editClass", function (snap){
 				thisObject.street2 == street2.attr("data-name") &&
 				thisObject.city == city.attr("data-name") &&
 				thisObject.state == state.attr("data-name") &&
-				thisObject.zip == zip.attr("data-name")) 
+				thisObject.zip == zip.attr("data-name"))
 			{
-				database.ref().child(key).set({
-					name: "test1",
-					phone:"3334445555"
-				});
-
+				dataKeyForEdit = key;
+				//console.log(dataKeyForEdit);
+			
 			}
 		}
 	});
 
 });
 
+$("#addCustomer").on("click", function (event){
+	event.preventDefault();
+	isEdit=0;
+	$("#exampleModalLongTitle").html("Add A Customer");
+	$(".modal-form input, .modal-form textarea").val('');
+
+});
 
     console.log( "ready!" );
 });
