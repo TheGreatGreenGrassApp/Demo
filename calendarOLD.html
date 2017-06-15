@@ -14,10 +14,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" id="header">
         <div class="container-fluid">
             <!-- LOGO -->
-            <div class="navbar-header">
+            <div class="navbar-header id="header"">
                 <a class="navbar-brand" href="index.html">Great Green Grass</a>
             </div>
             <!-- LINKS TO OTHER PAGES -->
@@ -34,31 +34,33 @@
     <div class="row" id="forecast">
         <div class="panel-group">
             <div class="panel panel-default col-md-2 col-md-offset-1">
-                <div class="panel-heading 0">Panel heading without title</div>
+                <div class="panel-heading" id="0">Panel heading without title</div>
                 <div class="panel-body" id="forecast-0">
-                    Panel content
+                <img class="weather-icon-0">
+                <div class="well">Temps</div>
+                
                 </div>
             </div>
             <div class="panel panel-default col-md-2">
-                <div class="panel-heading 1">Panel heading without title</div>
+                <div class="panel-heading" id="1">Panel heading without title</div>
                 <div class="panel-body" id="forecast-1">
                     Panel content
                 </div>
             </div>
             <div class="panel panel-default col-md-2">
-                <div class="panel-heading 2">Panel heading without title</div>
+                <div class="panel-heading" id="2">Panel heading without title</div>
                 <div class="panel-body" id="forecast-2">
                     Panel content
                 </div>
             </div>
             <div class="panel panel-default col-md-2">
-                <div class="panel-heading 3">Panel heading without title</div>
+                <div class="panel-heading" id="3">Panel heading without title</div>
                 <div class="panel-body" id="forecast-3">
                     Panel content
                 </div>
             </div>
             <div class="panel panel-default col-md-2">
-                <div class="panel-heading 4">Panel heading without title</div>
+                <div class="panel-heading" id="4">Panel heading without title</div>
                 <div class="panel-body" id="forecast-4">
                     Panel content
                 </div>
@@ -122,7 +124,7 @@ $.ajax({
         for (var i = 0; i < forecastArray.length; i++) {
 
             // Append date to panel header
-            $("." + i).html(forecastArray[i].date);
+            $("#" + i).html(forecastArray[i].date);
 
             // http://openweathermap.org/img/w/10d.png
             // Create link to weather icon
