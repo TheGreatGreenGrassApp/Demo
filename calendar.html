@@ -12,6 +12,10 @@
     <!-- WEATHER JS -->
     <!-- JQUERY -->
     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <!-- LINK TO GOOGLE MAPS -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <!-- LINK TO WEATHER JS -->
+    <script src="./assets/js/weather.js"></script>
 </head>
 
 <body>
@@ -30,16 +34,12 @@
             </div>
         </div>
     </nav>
-</body>
-<div class="weather-container">
-    <div class="row">
-        <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%">
-        </iframe>
+    <div class="weather-container">
+        <div class="row">
+            <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%">
+            </iframe>
+        </div>
     </div>
-</div>
-</div>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false">
-</script>
-<script src="./assets/js/weather.js"></script>
+</body>
 
 </html>
