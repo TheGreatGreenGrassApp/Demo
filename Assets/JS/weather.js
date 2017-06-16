@@ -1,3 +1,4 @@
+
 /// FUNCTION TO RUN DARK SKY IFRAME WEATHER IMBED
 function weatherForecast() {
     var geocoder = new google.maps.Geocoder();
@@ -20,3 +21,4 @@ function weatherForecast() {
 
 /// CALLS WEATHER FORECAST FUNCTION
 weatherForecast();
+
