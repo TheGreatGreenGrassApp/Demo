@@ -16,7 +16,6 @@ function weatherForecast() {
             alert("Something got wrong " + status);
         }
     })
-
 }
 
 /// CALLS WEATHER FORECAST FUNCTION
