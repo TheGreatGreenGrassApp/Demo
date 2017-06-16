@@ -119,11 +119,28 @@
     </p>
     <!--Add buttons to initiate auth sequence and sign out-->
     temp location for these
-    <button id="authorize-button" style="display: none;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
+    <!--<button id="authorize-button" style="display: none;">Authorize</button>
+    <button id="signout-button" style="display: none;">Sign Out</button>-->
     <pre id="content"></pre>
     <button id="addEvent">Add event</button>
 
+</div>
+<div class="modal fade" id="AuthorizeCalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="AuthorizeCalModalTitle">Please Authorize Access</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button id="authorize-button" style="display: none;">Authorize</button>
+                <button id="refuse-button" style="display: none;">Don't Authorize</button>
+                <button id="signout-button" style="display: none;">Sign Out</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script src="assets/lib/moment.js"></script>

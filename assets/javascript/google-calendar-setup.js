@@ -30,6 +30,7 @@ function setup() {
                 localStorage.setItem('calendarId', calendarResponse.id);
                 console.log(window.location.pathname);
                 if(/calendar/.test(window.location.pathname)){
+                    console.log('display events');
 					listUpcomingEvents(calendarResponse.id);
                 }
             }
@@ -65,16 +66,6 @@ function checkForCalendar() {
             if (!exists) {
                 dfr.reject('none')
             }
-            /*var responseStructure = {
-             accessRole: "owner",
-             defaultReminders: Array(0),
-             etag: "1497110929637000",
-             id: "74cfobonglb21ieeic8d69uuc0@group.calendar.google.com",
-             kind: "calendar#calendarListEntry",
-             selected: true,
-             summary: "GreatGreenGrass",
-             timeZone: "UTC"}*/
-          //  appendPre('No Related Calendar Present');
         });
 
     return dfr.promise();
@@ -86,21 +77,12 @@ function createSubCalendar() {
     gapi.client.calendar.calendars.insert({summary: "GreatGreenGrass"})
         .then(function (response) {
             console.log('create Calendars Response', response);
-            /*var responseStructure = {
-             etag: "nU8mcHQyfSAodzKKXewNxPMLTwQ / RbG_lnW3lDMKgNQrd - VCl1Pzfb4",
-             id: "74cfobonglb21ieeic8d69uuc0@group.calendar.google.com",
-             kind: "calendar#calendar",
-             summary: "GreatGreenGrass"
-             }; */
-            //appendPre('Calendar Created');
             return response.result;
         });
 };
 
 function listUpcomingEvents(calendarId) {
     var maxRetrieveDate = moment().add(5, 'days');
-    //  console.log(maxRetrieveDate.days());
-    // console.log(currentPlusFive);
     gapi.client.calendar.events.list({
         'calendarId': calendarId,
         'timeMin': (new Date()).toISOString(),
@@ -111,20 +93,17 @@ function listUpcomingEvents(calendarId) {
     }).then(function (response) {
         var events = response.result.items;
         console.log('EventList Response', response);
-        //appendPre('Upcoming events:');
         if (events.length > 0) {
             parseListedEvents(events);
             var days = {};
 
         } else {
-            //appendPre('No upcoming events found.');
         }
     });
 }
 
 
 function parseListedEvents(events) {
-    //var maxRetrieveDate = ;
     var upcomming = [];
     for (var j = 0; j < 5; j++) {
         var checkDate = moment().add(j, 'days');
@@ -161,7 +140,6 @@ function createDateEntries(offset, eventDate) {
             '<p>' + eventDate[i].location + '</p>' +
             '<p>' + eventDate[i].summary + '</p>';
         $('#date-' + offset).append(eventTemplate);
-        //eventDate[i]
     }
 }
 

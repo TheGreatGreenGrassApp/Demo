@@ -11,8 +11,8 @@ $.ajax({
     method: "GET"
 }).done(function(response) {
 
-    console.log(queryURL);
-    console.log(response);
+    //console.log(queryURL);
+    //console.log(response);
 
     // Array to hold response data
     var responseArray = [];
@@ -20,11 +20,11 @@ $.ajax({
 
     // For loop to push forecast data into an array
     for (var i = 0; i < response.list.length; i++) {
-        console.log(response.list[i]);
+        //console.log(response.list[i]);
 
         // Push response data into responseArray
         responseArray.push(response.list[i]);
-        console.log(responseArray);
+        //console.log(responseArray);
 
         // Grab only the weather variables we need and push to weatherArray
         weatherArray.push({
@@ -35,7 +35,7 @@ $.ajax({
             icon: response.list[i].weather[0].icon
         });
 
-        console.log(weatherArray);
+        //console.log(weatherArray);
 
     } // Close fill array for loop
 
@@ -60,7 +60,7 @@ $.ajax({
         };
 
         forecastArray = reduce(weatherArray, 'date');
-        console.log(forecastArray);
+        //console.log(forecastArray);
 
     } // Close reduce for loop
 
@@ -97,6 +97,6 @@ $.ajax({
 
     } // Close weather forecast append for loop
 
-    console.log(forecastArray);
+    //console.log(forecastArray);
 
 }); // Close AJAX Call function

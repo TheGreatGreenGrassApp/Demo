@@ -119,33 +119,13 @@ function createEvent(id, options) {
     var dfr = $.Deferred();
     checkCreatePermissions(id)
         .then(function(){
-          //  options = options ? options : {};
-          //  var start = startTime ? startTime :  new Date(2017, 7, 1, 9, 0, 0, 0);
-          //  var end = endTime ? endTime :  new Date(2017, 7, 1, 9, 0, 0, 0);
             console.log(options);
-         /*   var base = {
-                calendarId: id,
-                start: {
-                    // "date": '2017-07-01
-                    "dateTime": start,
-                    "timeZone": 'America/New_York'
-                },
-                end: {
-                    //  "date": date,
-                    "dateTime": end,
-                    "timeZone": 'America/New_York'
-                }
-            };*/
-
-         //   var request = Object.assign(base,  options);
             console.log(options);
             google.calendar.events.insert(options)
                 .then(function (response) {
-                    //appendPre('Event Created');
                     console.log(response);
                     dfr.resolve(response);
                 }, function (error) {
-                    //appendPre('Error Creating Event');
                     console.log('error', error);
                     dfr.reject(error);
                 })
@@ -163,24 +143,19 @@ function checkCreatePermissions(id) {
             console.log('checkCreatePErsmissions response', response);
             switch (response.result.accessRole) {
                 case 'reader':
-                    //appendPre('NOT AUTHORIZED TO CREATE EVENTS');
                     dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
                     break;
                 case 'writer':
                     dfr.resolve();
-                    // createEvent(id, null, null, options);
                     break;
                 case 'owner':
                     dfr.resolve();
-                    // createEvent(id, null, null, options);
                     break;
                 case 'freeBusyReader':
                     dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
-                    //appendPre('NOT AUTHORIZED TO CREATE EVENTS');
                     break;
                 default:
                     dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
-                    //appendPre('NOT AUTHORIZED TO CREATE EVENTS');
             }
         });
     return dfr.promise();
