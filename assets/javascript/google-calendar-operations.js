@@ -29,6 +29,55 @@ $('#addEvent').on('click', function(){
 });
 
 
+function prepareEventData(customerData){
+
+    /*
+     {
+     name:$("#name_id").val().trim(),
+     street1:$("#street1_id").val().trim(),
+     street2:$("#street2_id").val().trim(),
+     city:$("#city_id").val().trim(),
+     state:$("#state_id").val().trim(),
+     zip:$("#zip_id").val().trim(),
+     email:$("#email_id").val().trim(),
+     phone:$("#phone_id").val().trim(),
+     startDate:$("#startDate_id").val().trim(),
+     endDate:$("#endDate_id").val().trim(),
+     period:$("#period_id").val().trim(),
+     rate:$("#rate_id").val().trim(),
+     }
+     */
+	var id = localStorage.getItem('calendarId');
+	var start = {
+		// "date": '2017-07-01
+		"dateTime": moment(customerData.startDate).format(),
+		"timeZone": 'America/New_York'
+	};
+	var end =  {
+		//  "date": date,
+		"dateTime": moment(customerData.startDate).add(1, 'hour').format(),
+		"timeZone": 'America/New_York'
+	};
+	var freq = 3;
+	var endDate = moment(customerData.endDate).format('YYYYMMDD');
+	var recur = "RRULE:FREQ=DAILY;UNTIL="+ endDate + ";INTERVAL=" + customerData.period;
+
+   // $(document).on('CreateCustomerEvent', function(event, data){
+		var eventDetails = {
+			calendarId: id,
+			//id: data.key,
+			description: customerData.name + '(phone: '+ customerData.phone +  ') at ' + customerData.street1 + ' ' + customerData.street2 + ' ' + customerData.city + ' ' + customerData.zip,
+			location: customerData.city,
+			summary: customerData.name,
+			start: start,
+			end: end,
+			recurrence: recur
+		};
+		newEvent(id, eventDetails)
+  //  })
+	//
+}
+
 function newEvent(id, details){
 
     if(id && details.hasOwnProperty('description') && details.hasOwnProperty('end') && details.hasOwnProperty('start') ){
@@ -92,11 +141,11 @@ function createEvent(id, options) {
             console.log(options);
             google.calendar.events.insert(options)
                 .then(function (response) {
-                    appendPre('Event Created');
+                    //appendPre('Event Created');
                     console.log(response);
                     dfr.resolve(response);
                 }, function (error) {
-                    appendPre('Error Creating Event');
+                    //appendPre('Error Creating Event');
                     console.log('error', error);
                     dfr.reject(error);
                 })
@@ -114,7 +163,7 @@ function checkCreatePermissions(id) {
             console.log('checkCreatePErsmissions response', response);
             switch (response.result.accessRole) {
                 case 'reader':
-                    appendPre('NOT AUTHORIZED TO CREATE EVENTS');
+                    //appendPre('NOT AUTHORIZED TO CREATE EVENTS');
                     dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
                     break;
                 case 'writer':
@@ -127,11 +176,11 @@ function checkCreatePermissions(id) {
                     break;
                 case 'freeBusyReader':
                     dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
-                    appendPre('NOT AUTHORIZED TO CREATE EVENTS');
+                    //appendPre('NOT AUTHORIZED TO CREATE EVENTS');
                     break;
                 default:
                     dfr.reject('NOT AUTHORIZED TO CREATE EVENTS');
-                    appendPre('NOT AUTHORIZED TO CREATE EVENTS');
+                    //appendPre('NOT AUTHORIZED TO CREATE EVENTS');
             }
         });
     return dfr.promise();

@@ -22,38 +22,28 @@ $("#saveCustomerInfo").on("click", function(snap){
 	snap.preventDefault();
 	var showSaved = $("<p><font color='red'>Saved Successfully!</font></p>").delay(1000).fadeOut(500);
   	$(".modal-footer").prepend(showSaved);
+  	var customerData = {
+		name:$("#name_id").val().trim(),
+		street1:$("#street1_id").val().trim(),
+		street2:$("#street2_id").val().trim(),
+		city:$("#city_id").val().trim(),
+		state:$("#state_id").val().trim(),
+		zip:$("#zip_id").val().trim(),
+		email:$("#email_id").val().trim(),
+		phone:$("#phone_id").val().trim(),
+		startDate:$("#startDate_id").val().trim(),
+		endDate:$("#endDate_id").val().trim(),
+		period:$("#period_id").val().trim(),
+		rate:$("#rate_id").val().trim(),
+	};
+
   	if (isEdit==0) {
-		database.ref().push({
-			name:$("#name_id").val().trim(),
-			street1:$("#street1_id").val().trim(),
-			street2:$("#street2_id").val().trim(),
-			city:$("#city_id").val().trim(),
-			state:$("#state_id").val().trim(),
-			zip:$("#zip_id").val().trim(),
-			email:$("#email_id").val().trim(),
-			phone:$("#phone_id").val().trim(),
-			startDate:$("#startDate_id").val().trim(),
-			endDate:$("#endDate_id").val().trim(),
-			period:$("#period_id").val().trim(),
-			rate:$("#rate_id").val().trim(),
-		});
+		database.ref().push(customerData);
+		prepareEventData(customerData);
 		$(".modal-form input, .modal-form textarea").val('');
 	}
 	else {
-		database.ref().child(dataKeyForEdit).set({
-			name:$("#name_id").val().trim(),
-			street1:$("#street1_id").val().trim(),
-			street2:$("#street2_id").val().trim(),
-			city:$("#city_id").val().trim(),
-			state:$("#state_id").val().trim(),
-			zip:$("#zip_id").val().trim(),
-			email:$("#email_id").val().trim(),
-			phone:$("#phone_id").val().trim(),
-			startDate:$("#startDate_id").val().trim(),
-			endDate:$("#endDate_id").val().trim(),
-			period:$("#period_id").val().trim(),
-			rate:$("#rate_id").val().trim(),
-		});
+		database.ref().child(dataKeyForEdit).set();
 	}
 });
 
@@ -144,7 +134,13 @@ database.ref().on("value", function(snap){
 		periodTd.html(period);
 		rateTd.html(rate);
 	}
+	// sv.
 });
+
+/*	database.ref().on("child_added", function(snap){
+		console.log('snap.key()', snap.key());
+		$(document).trigger('CreateCustomerEvent', {key: snap.key()})
+	})*/
 
 $(document).on("click", ".removeClass", function (snap){
 	var street1 = $(this).siblings(":nth-child(4)").children().first();

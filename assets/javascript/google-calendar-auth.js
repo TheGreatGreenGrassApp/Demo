@@ -11,8 +11,9 @@ var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/
 //ar SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 var SCOPES = "https://www.googleapis.com/auth/calendar";
 
-var authorizeButton = document.getElementById('authorize-button');
-var signoutButton = document.getElementById('signout-button');
+var authorizeButton = $('#authorize-button');
+var signoutButton = $('#signout-button');
+var refuseAuth = $('#refuse-button');
 
 
 
@@ -38,8 +39,9 @@ function initClient() {
 
 		// Handle the initial sign-in state.
 		updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-		authorizeButton.onclick = handleAuthClick;
-		signoutButton.onclick = handleSignoutClick;
+		authorizeButton.on('click', handleAuthClick);
+		refuseAuth.on('click', handleRefuseClick);
+		signoutButton.on('click', handleSignoutClick);
 	});
 }
 
@@ -49,11 +51,13 @@ function initClient() {
  */
 function updateSigninStatus(isSignedIn) {
 	if (isSignedIn) {
-		authorizeButton.style.display = 'none';
-		signoutButton.style.display = 'block';
+		//signoutButton.style.display = 'none';
+		//authorizeButton.style.display = 'block';
 		$(document).trigger('calendarAuthorized');
 		//listUpcomingEvents();
 	} else {
+		$('#AuthorizeCalModal').modal({backdrop: 'static'});
+
 		authorizeButton.style.display = 'block';
 		signoutButton.style.display = 'none';
 	}
@@ -64,6 +68,7 @@ function updateSigninStatus(isSignedIn) {
  */
 function handleAuthClick(event) {
 	gapi.auth2.getAuthInstance().signIn();
+	$('#AuthorizeCalModal').modal('hide');
 }
 
 /**
@@ -71,4 +76,9 @@ function handleAuthClick(event) {
  */
 function handleSignoutClick(event) {
 	gapi.auth2.getAuthInstance().signOut();
+	$('#AuthorizeCalModal').modal('hide');
+}
+
+function handleRefuseClick(event){
+	$('#AuthorizeCalModal').modal('hide');
 }

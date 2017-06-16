@@ -23,16 +23,19 @@ function setup() {
 
     calendarCheck.then(
         function (calendarResponse) {
-            appendPre('Preparing to Populate Events');
+           // appendPre('Preparing to Populate Events');
             console.log(calendarResponse);
             if (calendarResponse.hasOwnProperty('id')) {
                 console.log('get upcomming events');
                 localStorage.setItem('calendarId', calendarResponse.id);
-                listUpcomingEvents(calendarResponse.id);
+                console.log(window.location.pathname);
+                if(/calendar/.test(window.location.pathname)){
+					listUpcomingEvents(calendarResponse.id);
+                }
             }
         },
         function (result) {
-            appendPre('Creating Calendar');
+          //  appendPre('Creating Calendar');
             calendarObject = createSubCalendar();
             console.log('create Calendar calendarObject', calendarObject);
         });
@@ -53,7 +56,7 @@ function checkForCalendar() {
             for (var i = 0; i < calendars.length; i++) {
                 if (calendars[i].summary) {
                     if (calendars[i].summary === "GreatGreenGrass") {
-                        appendPre('Calendar Present');
+                       // appendPre('Calendar Present');
                         exists = true;
                         dfr.resolve(calendars[i]);
                     }
@@ -71,7 +74,7 @@ function checkForCalendar() {
              selected: true,
              summary: "GreatGreenGrass",
              timeZone: "UTC"}*/
-            appendPre('No Related Calendar Present');
+          //  appendPre('No Related Calendar Present');
         });
 
     return dfr.promise();
@@ -89,7 +92,7 @@ function createSubCalendar() {
              kind: "calendar#calendar",
              summary: "GreatGreenGrass"
              }; */
-            appendPre('Calendar Created');
+            //appendPre('Calendar Created');
             return response.result;
         });
 };
@@ -108,13 +111,13 @@ function listUpcomingEvents(calendarId) {
     }).then(function (response) {
         var events = response.result.items;
         console.log('EventList Response', response);
-        appendPre('Upcoming events:');
+        //appendPre('Upcoming events:');
         if (events.length > 0) {
             parseListedEvents(events);
             var days = {};
 
         } else {
-            appendPre('No upcoming events found.');
+            //appendPre('No upcoming events found.');
         }
     });
 }
