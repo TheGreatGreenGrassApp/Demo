@@ -1,8 +1,5 @@
 $( document ).ready(function() {
 // Initialize Firebase
-var isEdit =0;
-var dataKeyForEdit ;
-
 var config = {
   apiKey: "AIzaSyBfVb_K7kzA1Hee9Y8lBdI3spp9lnxhb48",
   authDomain: "project1-work-space.firebaseapp.com",
@@ -15,13 +12,36 @@ firebase.initializeApp(config);
 
 var database=firebase.database();
 
-$("#phone_id").mask('(000) 000-0000', {clearIfNotMatch: true});
-$("#zip_id").mask('00000', {clearIfNotMatch: true});
+var isEdit =0; // to identify if this is editing or adding new user
+var dataKeyForEdit ; // keep the key for which child is being edited
 
+$("#phone_id").mask('(000) 000-0000', {clearIfNotMatch: true}); //mask for phone number
+$("#zip_id").mask('00000', {clearIfNotMatch: true});	//mask for zip code
+
+//Save button function
 $("#saveCustomerInfo").on("click", function(snap){
 	snap.preventDefault();
+	//pop up a "Saved Successfully!" msg for a second and then fade
 	var showSaved = $("<p><font color='red'>Saved Successfully!</font></p>").delay(1000).fadeOut(500);
   	$(".modal-footer").prepend(showSaved);
+
+  	/*if isEdit=0 "Save" button will push new child to database. */
+  	if (isEdit==0) {
+		database.ref().push({
+			name:$("#name_id").val().trim(),
+			street1:$("#street1_id").val().trim(),
+			street2:$("#street2_id").val().trim(),
+			city:$("#city_id").val().trim(),
+			state:$("#state_id").val().trim(),
+			zip:$("#zip_id").val().trim(),
+			email:$("#email_id").val().trim(),
+			phone:$("#phone_id").val().trim(),
+			startDate:$("#startDate_id").val().trim(),
+			endDate:$("#endDate_id").val().trim(),
+			period:$("#period_id").val().trim(),
+			rate:$("#rate_id").val().trim(),
+		});
+		//clean up the the input field after the information are saved
   	var customerData = {
 		name:$("#name_id").val().trim(),
 		street1:$("#street1_id").val().trim(),
@@ -42,17 +62,33 @@ $("#saveCustomerInfo").on("click", function(snap){
 		prepareEventData(customerData);
 		$(".modal-form input, .modal-form textarea").val('');
 	}
+		// if isEdit=1, "save" button will modify existing child
 	else {
-		database.ref().child(dataKeyForEdit).set();
+		database.ref().child(dataKeyForEdit).set({
+			name:$("#name_id").val().trim(),
+			street1:$("#street1_id").val().trim(),
+			street2:$("#street2_id").val().trim(),
+			city:$("#city_id").val().trim(),
+			state:$("#state_id").val().trim(),
+			zip:$("#zip_id").val().trim(),
+			email:$("#email_id").val().trim(),
+			phone:$("#phone_id").val().trim(),
+			startDate:$("#startDate_id").val().trim(),
+			endDate:$("#endDate_id").val().trim(),
+			period:$("#period_id").val().trim(),
+			rate:$("#rate_id").val().trim(),
+		});
 	}
 });
 
 
+//once the value changes in database, reload all info in the database
 database.ref().on("value", function(snap){
 	$("#displayCustomerInfo").empty();
 	var sv=snap.val();
 	for (var key in sv) {
 		var thisObject=sv[key];
+		//for each child in the database, do the following
 		var name = thisObject.name;
 		var street1 = thisObject.street1;
 		var street2 = thisObject.street2;
@@ -66,6 +102,7 @@ database.ref().on("value", function(snap){
 		var period = thisObject.period;
 		var rate = thisObject.rate;
 
+		//create field to contain customer information
 		var customerInfoTr = $("<tr>");
 		var nameTd = $("<td>");
 		var emailTd = $("<td>");
@@ -81,6 +118,7 @@ database.ref().on("value", function(snap){
 		var periodTd = $("<td>");
 		var rateTd = $("<td>");
 
+		//save value to data attribute. They will be used in editing mode to preload customer info the pop up window
 		nameTd.attr("data-name", name);
 		emailTd.attr("data-name", email);
 		phoneTd.attr("data-name", phone);
@@ -94,6 +132,7 @@ database.ref().on("value", function(snap){
 		periodTd.attr("data-name",period);
 		rateTd.attr("data-name", rate);
 
+		//combine street, city, state and zip to a full address
 		addrTd.append(street1Sp);
 		addrTd.append(street2Sp);
 		addrTd.append($("<br>"));
@@ -101,12 +140,14 @@ database.ref().on("value", function(snap){
 		addrTd.append(stateSp);
 		addrTd.append(zipSp);
 
+		//add edit and remove button for each row
 		var editTd = $ ("<button> Edit </button>");
 		var removeTd = $("<button> Remove </button>");
-		editTd.addClass("editClass");
-		editTd.attr("data-toggle","modal");
-		editTd.attr("data-target","#addCustomerModal");
-		removeTd.addClass("removeClass");
+		editTd.addClass("editClass"); //add class to edit button
+		editTd.attr("data-toggle","modal"); //add attr so that edit can target to the pop up window
+		editTd.attr("data-target","#addCustomerModal"); //same as above
+		removeTd.addClass("removeClass"); //add class to remove button
+
 
 		customerInfoTr.append(nameTd);
 		customerInfoTr.append(emailTd);
@@ -121,6 +162,8 @@ database.ref().on("value", function(snap){
 
 		$("#displayCustomerInfo").append(customerInfoTr);
 
+		//show all infor on main page
+
 		nameTd.html(name);
 		emailTd.html(email);
 		phoneTd.html(phone);
@@ -134,16 +177,10 @@ database.ref().on("value", function(snap){
 		periodTd.html(period);
 		rateTd.html(rate);
 	}
-	// sv.
 });
 
-/*	database.ref().on("child_added", function(snap){
-		console.log('snap.key()', snap.key());
-		$(document).trigger('CreateCustomerEvent', {key: snap.key()})
-	})*/
-
-$(document).on("click", ".removeClass", function (snap){
-	var street1 = $(this).siblings(":nth-child(4)").children().first();
+$(document).on("click", ".removeClass", function (snap){  //when remove button is clicked
+	var street1 = $(this).siblings(":nth-child(4)").children().first(); //find all area that contains address
 	var street2 = street1.next();
 	var city = street2.next().next();
 	var state = city.next();
@@ -151,15 +188,15 @@ $(document).on("click", ".removeClass", function (snap){
 
 	database.ref().once('value').then(function(snapshot) {
 		var sv=snapshot.val();
-  		for (var key in sv) {
+  		for (var key in sv) {  //loop for a match record in database
 			var thisObject=sv[key];
 			if (thisObject.street1 == street1.attr("data-name") &&
 				thisObject.street2 == street2.attr("data-name") &&
 				thisObject.city == city.attr("data-name") &&
 				thisObject.state == state.attr("data-name") &&
-				thisObject.zip == zip.attr("data-name")) 
+				thisObject.zip == zip.attr("data-name"))   //, if address is the same, the right child is located
 			{
-				database.ref().child(key).remove();
+				database.ref().child(key).remove(); //remove the child in database
 		}
 	}
 	});
@@ -167,10 +204,10 @@ $(document).on("click", ".removeClass", function (snap){
 
 
 
-$(document).on("click", ".editClass", function (snap){
+$(document).on("click", ".editClass", function (snap){  //when remove button is clicked
 	isEdit = 1;
 	
-	var name = $(this).siblings().first();
+	var name = $(this).siblings().first(); //find info of the row where edit button is clicked, they are used to preload the pop ip window
 	var email = name.next();
 	var phone = email.next();
 	var street1 = $(this).siblings(":nth-child(4)").children().first();
@@ -183,6 +220,7 @@ $(document).on("click", ".editClass", function (snap){
 	var period = endDate.next();
 	var rate = period.next();
 
+	//prefill all the input area for the pop up window
 	$("#exampleModalLongTitle").html("Edit Customer Information");
 	$("#name_id").val(name.attr("data-name"));
 	$("#street1_id").val(street1.attr("data-name"));
@@ -197,6 +235,8 @@ $(document).on("click", ".editClass", function (snap){
 	$("#period_id").val(period.attr("data-name"));
 	$("#rate_id").val(rate.attr("data-name"));
 
+
+	// find the right child in database
 	database.ref().once('value').then(function(snapshot) {
 		var sv=snapshot.val();
 	  	
@@ -209,7 +249,7 @@ $(document).on("click", ".editClass", function (snap){
 				thisObject.state == state.attr("data-name") &&
 				thisObject.zip == zip.attr("data-name"))
 			{
-				dataKeyForEdit = key;
+				dataKeyForEdit = key; // save the key so when "save button" is clicked, it knows where to set database value
 				//console.log(dataKeyForEdit);
 			
 			}
@@ -218,6 +258,7 @@ $(document).on("click", ".editClass", function (snap){
 
 });
 
+//when add a customer is clicked, clear all value in pop up window
 $("#addCustomer").on("click", function (event){
 	event.preventDefault();
 	isEdit=0;
