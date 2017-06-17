@@ -1,39 +1,42 @@
-
-/// FUNCTION TO RUN DARK SKY IFRAME WEATHER IMBED
-
-
-function checkIfGoogleMapsApiLoaded(){
-    setTimeout(function () {
-        if (window.google) {
-            /// CALLS WEATHER FORECAST FUNCTION
-            weatherForecast();
-        } else {
-            checkIfGoogleMapsApiLoaded();
-        }
-    }, 250);
-}
-
-
-
+/// FUNCTION TO RUN DARK SKY IFRAME WEATHER EMBED
 function weatherForecast() {
-    var geocoder = new google.maps.Geocoder();
+
+    // queryURL variables
     var city = "Cleveland";
-    geocoder.geocode({ 'address': city }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            // finds latitude and longitude of city
-           var lat = results[0].geometry.location.lat();
-           var lon = results[0].geometry.location.lng();
-            // create weatherURL
-            var weatherURL = "http://forecast.io/embed/#lat=" + lat + "&lon=" + lon + "&name=" + city;
-            // Add weather URL to iframe
-            $("#forecast_embed").attr("src", weatherURL);
-        } else {
-            alert("Something got wrong " + status);
-        }
-    })
+    var apiKey = "AIzaSyDkBhwarrOwSenjAYgGyBi9wUplJnM2JW0";
+    var lat = 0;
+    var lon = 0;
 
-}
+    // queryURL for JSON request
+    var queryURL = "//maps.googleapis.com/maps/api/geocode/json?address=" + city + "&key=" + apiKey;
+
+    console.log(queryURL);
+
+    // ajax request to find lat and long of city variable
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).done(function(results) {
+
+        console.log(results);
+
+        lat = results.results[0].geometry.location.lat;
+        long = results.results[0].geometry.location.lng;
+
+        console.log(lat);
+        console.log(long);
+
+        initAutocomplete(lat, long);
+
+        // create weatherURL
+        var weatherURL = "//forecast.io/embed/#lat=" + lat + "&lon=" + long + "&name=" + city;
+        console.log(weatherURL);
+
+        // Add weather URL to iframe
+        $("#forecast_embed").attr("src", weatherURL);
+    }); // close ajax request
+
+} // Close weather function
 
 
-/// Poll to see if google maps api is loaded
-checkIfGoogleMapsApiLoaded();
+weatherForecast();
