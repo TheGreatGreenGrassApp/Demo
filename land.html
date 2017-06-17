@@ -7,37 +7,42 @@
     <meta charset="utf-8">
     <title>Map Service</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
-    <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="./Assets/CSS/kdstyle.css">
     <script type="text/javascript" src="./Assets/JS/land.js"></script>
     <script type="text/javascript" src="./Assets/JS/dataEntry.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaR25Eu2E2D7_2ykdaI5LSoPKJomx3dfE&libraries=geometry,places&sensor=false"></script>
 </head>
 
 <body>
-    <div class="page-header">
-        <h1><large>Map Service</large></h1>
+<div id="map"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyA21cA43E8JvGw-nZrN2ZgSMU6IJWjKiUQ&libraries=places&callback=initAutocomplete" async defer></script>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Great Green Grass</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="land.html">Map</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-
-
-        <div id="map"></div>
-<!--         <script src="//maps.googleapis.com/maps/api/js?key= AIzaSyA21cA43E8JvGw-nZrN2ZgSMU6IJWjKiUQ&libraries=places&callback=initAutocomplete" async defer></script> -->
-        </header>
-        <div class="media-body">
-            <div id="main-container" class="container">
-                <section class="main-section">
-                </section>
-            </div>
-            <footer>
-                <div class="container">
-                    Copyright &copy; Lawn LLC 2017
-                </div>
-            </footer>
-    </body>
+    <!-- /.container-fluid -->
+</nav>
+<div class="media-body">
+    <div id="main-container" class="container">
+        <section class="main-section">
+        </section>
+    </div>
+</body>
 
 </html>
 
