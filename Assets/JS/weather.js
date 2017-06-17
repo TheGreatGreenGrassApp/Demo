@@ -1,24 +1,44 @@
+// / FUNCTION TO RUN DARK SKY IFRAME WEATHER EMBED
 
-/// FUNCTION TO RUN DARK SKY IFRAME WEATHER IMBED
 function weatherForecast() {
-    var geocoder = new google.maps.Geocoder();
+
+    // queryURL variables
     var city = "Cleveland";
-    geocoder.geocode({ 'address': city }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            // finds latitude and longitude of city
-            lat = results[0].geometry.location.lat();
-            lon = results[0].geometry.location.lng();
-            // create weatherURL
-            var weatherURL = "http://forecast.io/embed/#lat=" + lat + "&lon=" + lon + "&name=" + city;
-            // Add weather URL to iframe
-            $("#forecast_embed").attr("src", weatherURL);
-        } else {
-            alert("Something got wrong " + status);
-        }
-    })
+    var apiKey = "AIzaSyDkBhwarrOwSenjAYgGyBi9wUplJnM2JW0";
+    var lat = 0;
+    var lon = 0;
 
-}
+    // queryURL for JSON request
+    var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + city + "&key=" + apiKey;
 
-/// CALLS WEATHER FORECAST FUNCTION
+    console.log(queryURL);
+
+    // ajax request to find lat and long of city variable
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).done(function(results) {
+
+        console.log(results);
+
+        lat = results.results[0].geometry.location.lat;
+        long = results.results[0].geometry.location.lng;
+
+        console.log(lat);
+        console.log(long);
+
+        // create weatherURL
+        var weatherURL = "http://forecast.io/embed/#lat=" + lat + "&lon=" + long + "&name=" + city;
+        console.log(weatherURL);
+
+        // Add weather URL to iframe
+        $("#forecast_embed").attr("src", weatherURL);
+    }); // close ajax request
+
+
+
+
+} // Close weather function
+
+
 weatherForecast();
-

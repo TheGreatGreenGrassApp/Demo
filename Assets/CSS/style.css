@@ -5,3 +5,12 @@ body {
 #header {
 	color: #006400;
 }
+
+#addCustomer {
+	margin-bottom: 5px;
+}
+
+#customer-row {
+	margin-top: 10px;
+
+}
