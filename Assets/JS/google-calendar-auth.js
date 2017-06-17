@@ -32,15 +32,20 @@ function initClient() {
 		discoveryDocs: DISCOVERY_DOCS,
 		clientId: CLIENT_ID,
 		scope: SCOPES
-	}).then(function () {
+	}).then(function (response) {
 		// Listen for sign-in state changes.
 		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
 		// Handle the initial sign-in state.
-		updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-		authorizeButton.on('click', handleAuthClick);
-		refuseAuth.on('click', handleRefuseClick);
-		signoutButton.on('click', handleSignoutClick);
+		if(!sessionStorage.getItem('authChecked')){
+			updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+			authorizeButton.on('click', handleAuthClick);
+			refuseAuth.on('click', handleRefuseClick);
+			signoutButton.on('click', handleSignoutClick);
+		} else {
+			$(document).trigger('calendarAuthorized');
+		}
+
 	});
 }
 
@@ -49,16 +54,24 @@ function initClient() {
  *  appropriately. After a sign-in, the API is called.
  */
 function updateSigninStatus(isSignedIn) {
-	if (isSignedIn) {
-		//signoutButton.style.display = 'none';
-		//authorizeButton.style.display = 'block';
-		$(document).trigger('calendarAuthorized');
-		//listUpcomingEvents();
-	} else {
-		$('#AuthorizeCalModal').modal({backdrop: 'static'});
+	var authInstance = gapi.auth2.getAuthInstance();
+	var googleuser = authInstance.currentUser.get();
 
-		authorizeButton.style.display = 'block';
-		signoutButton.style.display = 'none';
+	if(isSignedIn){
+		gapi.client.calendar.calendarList.list().then(function(response){
+			sessionStorage.setItem('authChecked', true);
+			$(document).trigger('calendarAuthorized');
+		}, function(error){
+			$('#authorize-button').css('display', 'block');
+			$('#signout-button').css('display', 'none');
+			$('#refuse-button').css('display', 'block');
+			$('#AuthorizeCalModal').modal({backdrop: 'static', show: true});
+		})
+	} else {
+		$('#authorize-button').css('display', 'block');
+		$('#signout-button').css('display', 'none');
+		$('#refuse-button').css('display', 'block');
+		$('#AuthorizeCalModal').modal({backdrop: 'static', show: true});
 	}
 }
 
@@ -66,8 +79,13 @@ function updateSigninStatus(isSignedIn) {
  *  Sign in the user upon button click.
  */
 function handleAuthClick(event) {
-	gapi.auth2.getAuthInstance().signIn();
-	$('#AuthorizeCalModal').modal('hide');
+	gapi.auth2.getAuthInstance().signIn()
+		.then(function(response){
+			sessionStorage.setItem('authChecked', true);
+			$(document).trigger('calendarAuthorized');
+			$('#AuthorizeCalModal').modal('hide');
+		})
+
 }
 
 /**
@@ -79,5 +97,6 @@ function handleSignoutClick(event) {
 }
 
 function handleRefuseClick(event){
+	sessionStorage.setItem('authChecked', true);
 	$('#AuthorizeCalModal').modal('hide');
 }
