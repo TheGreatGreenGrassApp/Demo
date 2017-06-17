@@ -14,6 +14,10 @@ var database=firebase.database();
 
 var isEdit =0; // to identify if this is editing or adding new user
 var dataKeyForEdit ; // keep the key for which child is being edited
+function currencyFormat (num) {
+    return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
 
 $("#phone_id").mask('(000) 000-0000', {clearIfNotMatch: true}); //mask for phone number
 $("#zip_id").mask('00000', {clearIfNotMatch: true});	//mask for zip code
@@ -157,7 +161,8 @@ database.ref().on("value", function(snap){
 		startDateTd.html(startDate);
 		endDateTd.html(endDate);
 		periodTd.html(period);
-		rateTd.html(rate);
+		var rateFormat = currencyFormat(parseInt(rate)); 
+		rateTd.html(rateFormat);
 	}
 });
 
