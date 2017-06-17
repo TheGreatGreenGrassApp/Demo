@@ -1,32 +1,3 @@
-/*
-$('#addEvent').on('click', function () {
-    var id = localStorage.getItem('calendarId');
-    var start = {
-        // "date": '2017-07-01
-        "dateTime": new Date(2017, 5, 16, 9, 0, 0, 0),
-        "timeZone": 'America/New_York'
-    };
-    var end = {
-        //  "date": date,
-        "dateTime": new Date(2017, 5, 16, 9, 0, 0, 0),
-        "timeZone": 'America/New_York'
-    };
-    var freq = 3;
-
-    var recur = "RRULE:FREQ=DAILY;UNTIL=20170928;INTERVAL=" + freq;
-    var eventDetails = {
-        calendarId: id,
-        description: "Cut the Great Green Grass!",
-        location: 'cleveland',
-        summary: 'The Great Will Grow!',
-        start: start,
-        end: end,
-        recurrence: recur
-    };
-
-    createEvent(id, eventDetails)
-});
-*/
 
 function prepareEventData(customerData) {
     var dfr = $.Deferred();
