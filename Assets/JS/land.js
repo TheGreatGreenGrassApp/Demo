@@ -23,8 +23,19 @@ function geocodeAddress(location) {
             window.mapInstance.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
                 map: window.mapInstance,
-                position: results[0].geometry.location
+                position: results[0].geometry.location,
+                title: location.name
             });
+
+            var infowindow =  new google.maps.InfoWindow({
+                content: location.name + "<br>" + location.street1 + ' ' + location.street2 + "<br>" + location.city + ' ' + location.state + ' ' + location.zip,
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, this);
+            });
+
             // Error alert
         } else {
             alert("geocode of " + address + " failed:" + status);
