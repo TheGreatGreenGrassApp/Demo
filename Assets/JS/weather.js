@@ -26,8 +26,6 @@ function weatherForecast() {
         console.log(lat);
         console.log(long);
 
-        initAutocomplete(lat, long);
-
         // create weatherURL
         var weatherURL = "//forecast.io/embed/#lat=" + lat + "&lon=" + long + "&name=" + city;
         console.log(weatherURL);
