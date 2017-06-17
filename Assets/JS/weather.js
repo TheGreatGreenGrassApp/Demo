@@ -9,7 +9,7 @@ function weatherForecast() {
     var lon = 0;
 
     // queryURL for JSON request
-    var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + city + "&key=" + apiKey;
+    var queryURL = "//maps.googleapis.com/maps/api/geocode/json?address=" + city + "&key=" + apiKey;
 
     console.log(queryURL);
 
@@ -28,7 +28,7 @@ function weatherForecast() {
         console.log(long);
 
         // create weatherURL
-        var weatherURL = "http://forecast.io/embed/#lat=" + lat + "&lon=" + long + "&name=" + city;
+        var weatherURL = "//forecast.io/embed/#lat=" + lat + "&lon=" + long + "&name=" + city;
         console.log(weatherURL);
 
         // Add weather URL to iframe
