@@ -44,8 +44,14 @@ $("#saveCustomerInfo").on("click", function(snap){
             rate:$("#rate_id").val().trim(),
         };
 
-		database.ref().push(customerData);
-		prepareEventData(customerData);
+        prepareEventData(customerData)
+			.then(function(response){
+                database.ref().push(customerData);
+			}, function(error){
+
+			})
+
+
 		$(".modal-form input, .modal-form textarea").val('');
 	}
 		// if isEdit=1, "save" button will modify existing child

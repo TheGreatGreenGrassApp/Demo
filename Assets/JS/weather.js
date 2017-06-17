@@ -21,8 +21,8 @@ function weatherForecast() {
     geocoder.geocode({ 'address': city }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             // finds latitude and longitude of city
-            lat = results[0].geometry.location.lat();
-            lon = results[0].geometry.location.lng();
+           var lat = results[0].geometry.location.lat();
+           var lon = results[0].geometry.location.lng();
             // create weatherURL
             var weatherURL = "http://forecast.io/embed/#lat=" + lat + "&lon=" + lon + "&name=" + city;
             // Add weather URL to iframe

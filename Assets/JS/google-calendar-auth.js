@@ -8,7 +8,6 @@ var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-//ar SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 var SCOPES = "https://www.googleapis.com/auth/calendar";
 
 var authorizeButton = $('#authorize-button');
@@ -29,7 +28,7 @@ function handleClientLoad() {
  *  listeners.
  */
 function initClient() {
-	gapi.client.init({
+    gapi.client.init({
 		discoveryDocs: DISCOVERY_DOCS,
 		clientId: CLIENT_ID,
 		scope: SCOPES

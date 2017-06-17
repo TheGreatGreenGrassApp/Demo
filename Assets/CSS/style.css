@@ -5,3 +5,15 @@ body {
 #header {
 	color: #006400;
 }
+
+
+.cal-day{
+	max-height: 300px;
+	min-height: 300px;
+}
+
+
+.next-seven{
+	max-height: 300px;
+	min-height: 300px;
+}
