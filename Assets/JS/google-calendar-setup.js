@@ -4,11 +4,7 @@
  *
  * @param {string} message Text to be placed in pre element.
  */
-function appendPre(message) {
-    var pre = document.getElementById('content');
-    var textContent = document.createTextNode(message + '\n');
-    pre.appendChild(textContent);
-}
+
 
 var calendarCheck, calendarObject;
 
@@ -16,8 +12,8 @@ $(document).one('calendarAuthorized', setup);
 
 
 function setup() {
-    if (window.google === undefined) {
-        window.google = gapi.client;
+    if (window.gCal === undefined) {
+        window.gCal = gapi.client;
     }
     calendarCheck = checkForCalendar();
 

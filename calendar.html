@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 
@@ -7,16 +6,16 @@
     <!-- Bootstrap -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="assets/CSS/css/bootstrap.css">
+    <link rel="stylesheet" href="Assets/CSS/css/bootstrap.css">
     <!-- Bootswatch Cosmos -->
-    <link rel="stylesheet" type="text/css" href="./assets/CSS/bootswatch.css">
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/bootswatch.css">
     <!-- CSS -->
-    <!-- <link rel="stylesheet" type="text/css" href="./assets/CSS/style.css"> -->
-    <!-- CALENDAR CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/CSS/calendar.css">
-    <!-- WEATHER JS -->
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/style.css">
     <!-- JQUERY -->
     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="Assets/lib/moment.js"></script>
+    <!-- WEATHER JS -->
+    <script src="Assets/JS/weather.js"></script>
 </head>
 
 <body>
@@ -35,41 +34,10 @@
         </div>
     </div>
 </nav>
-
 <div class="weather-container">
-    <div class="row" id="forecast">
-        <div class="panel-group">
-            <div class="panel panel-default col-md-2 col-md-offset-1">
-                <div class="panel-heading 0">Panel heading without title</div>
-                <div class="panel-body" id="forecast-0">
-                    Panel content
-                </div>
-            </div>
-            <div class="panel panel-default col-md-2">
-                <div class="panel-heading 1">Panel heading without title</div>
-                <div class="panel-body" id="forecast-1">
-                    Panel content
-                </div>
-            </div>
-            <div class="panel panel-default col-md-2">
-                <div class="panel-heading 2">Panel heading without title</div>
-                <div class="panel-body" id="forecast-2">
-                    Panel content
-                </div>
-            </div>
-            <div class="panel panel-default col-md-2">
-                <div class="panel-heading 3">Panel heading without title</div>
-                <div class="panel-body" id="forecast-3">
-                    Panel content
-                </div>
-            </div>
-            <div class="panel panel-default col-md-2">
-                <div class="panel-heading 4">Panel heading without title</div>
-                <div class="panel-body" id="forecast-4">
-                    Panel content
-                </div>
-            </div>
-        </div>
+    <div class="row">
+        <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%">
+        </iframe>
     </div>
 </div>
 <div class="container">
@@ -143,63 +111,15 @@
         </div>
     </div>
 </div>
-<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="assets/lib/moment.js"></script>
-<script src="assets/javascript/weather.js"></script>
-<script src="asset/google-calendar-auth.js"></script>
-<script src="asset/google-calendar-setup.js"></script>
-<script src="asset/google-calendar-operations.js"></script>
-<script src="asset/app.js"></script>
+
+<script src="Assets/JS/google-calendar-auth.js"></script>
+<script src="Assets/JS/google-calendar-setup.js"></script>
+<script src="Assets/JS/google-calendar-operations.js"></script>
+<script src="Assets/JS/app.js"></script>
 <script async defer src="https://apis.google.com/js/api.js"
         onload="this.onload=function(){};handleClientLoad()"
         onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
 </body>
 </html>
-=======
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title>Great Green Grass App</title>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Bootswatch Cosmos -->
-    <link rel="stylesheet" type="text/css" href="./assets/CSS/bootswatch.css">
-    <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="./assets/CSS/style.css">
-    <!-- WEATHER JS -->
-    <!-- JQUERY -->
-    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <!-- LINK TO GOOGLE MAPS -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <!-- LINK TO WEATHER JS -->
-    <script src="./assets/js/weather.js"></script>
-</head>
-
-<body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- LOGO -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">Great Green Grass</a>
-            </div>
-            <!-- LINKS TO OTHER PAGES -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="map.html">Map</a></li>
-                    <li><a href="calendar.html">Calendar</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="weather-container">
-        <div class="row">
-            <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%">
-            </iframe>
-        </div>
-    </div>
-</body>
-
-</html>
->>>>>>> develop

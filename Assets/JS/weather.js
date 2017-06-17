@@ -1,5 +1,20 @@
 
 /// FUNCTION TO RUN DARK SKY IFRAME WEATHER IMBED
+
+
+function checkIfGoogleMapsApiLoaded(){
+    setTimeout(function () {
+        if (window.google) {
+            /// CALLS WEATHER FORECAST FUNCTION
+            weatherForecast();
+        } else {
+            checkIfGoogleMapsApiLoaded();
+        }
+    }, 250);
+}
+
+
+
 function weatherForecast() {
     var geocoder = new google.maps.Geocoder();
     var city = "Cleveland";
@@ -19,6 +34,6 @@ function weatherForecast() {
 
 }
 
-/// CALLS WEATHER FORECAST FUNCTION
-weatherForecast();
 
+/// Poll to see if google maps api is loaded
+checkIfGoogleMapsApiLoaded();

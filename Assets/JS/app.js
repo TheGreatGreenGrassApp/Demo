@@ -14,6 +14,9 @@ function checkIfGoogleApiLoaded() {
 
 	setTimeout(function () {
 		if (window.gapi) {
+            if (window.gCal === undefined) {
+                window.gCal = gapi.client;
+            }
 			$(document).trigger('gapiLoaded');
 		} else {
 			checkIfGoogleApiLoaded();

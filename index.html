@@ -9,16 +9,21 @@
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
+    <!-- Latest compiled and minified JavaScript
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+
+    <link rel="stylesheet" href="Assets/CSS/css/bootstrap.css">
+    <!-- Bootswatch Cosmos -->
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/bootswatch.css">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/style.css">
     <!-- mask for input area -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
     
-    <script type="text/javascript" src="assets/js/dataEntry.js"></script>
+    <script type="text/javascript" src="Assets/JS/dataEntry.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
 
     <style type="text/css">
@@ -30,10 +35,10 @@
         </style>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Bootswatch Cosmos -->
-    <link rel="stylesheet" type="text/css" href="./assets/CSS/bootswatch.css">
+    <!-- Bootswatch Cosmos
+    <link rel="stylesheet" type="text/css" href="./assets/CSS/bootswatch.css">-->
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="./assets/CSS/style.css">
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/style.css">
 </head>
 
 <body>
@@ -256,8 +261,32 @@
     </div>
   </div>
 </div>
-</div>            
-
+</div>
+    <div class="modal fade" id="AuthorizeCalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="AuthorizeCalModalTitle">Please Authorize Access</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <button id="authorize-button" style="display: none;">Authorize</button>
+                    <button id="refuse-button" style="display: none;">Don't Authorize</button>
+                    <button id="signout-button" style="display: none;">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="Assets/JS/google-calendar-auth.js"></script>
+    <script src="Assets/JS/google-calendar-setup.js"></script>
+    <script src="Assets/JS/google-calendar-operations.js"></script>
+    <script src="Assets/JS/app.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js"
+            onload="this.onload=function(){};handleClientLoad()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
 
 
 </body>

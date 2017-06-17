@@ -1,12 +1,12 @@
 $( document ).ready(function() {
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyBfVb_K7kzA1Hee9Y8lBdI3spp9lnxhb48",
-  authDomain: "project1-work-space.firebaseapp.com",
-  databaseURL: "https://project1-work-space.firebaseio.com",
-  projectId: "project1-work-space",
-  storageBucket: "project1-work-space.appspot.com",
-  messagingSenderId: "777786429739"
+    apiKey: "AIzaSyCtqKlasKaY9o0K3A8dLVSwrUs8S8i9gso",
+    authDomain: "boot-3ff6b.firebaseapp.com",
+    databaseURL: "https://boot-3ff6b.firebaseio.com",
+    projectId: "boot-3ff6b",
+    storageBucket: "boot-3ff6b.appspot.com",
+    messagingSenderId: "591583751544"
 };
 firebase.initializeApp(config);
 
@@ -26,38 +26,24 @@ $("#saveCustomerInfo").on("click", function(snap){
   	$(".modal-footer").prepend(showSaved);
 
   	/*if isEdit=0 "Save" button will push new child to database. */
-  	if (isEdit==0) {
-		database.ref().push({
-			name:$("#name_id").val().trim(),
-			street1:$("#street1_id").val().trim(),
-			street2:$("#street2_id").val().trim(),
-			city:$("#city_id").val().trim(),
-			state:$("#state_id").val().trim(),
-			zip:$("#zip_id").val().trim(),
-			email:$("#email_id").val().trim(),
-			phone:$("#phone_id").val().trim(),
-			startDate:$("#startDate_id").val().trim(),
-			endDate:$("#endDate_id").val().trim(),
-			period:$("#period_id").val().trim(),
-			rate:$("#rate_id").val().trim(),
-		});
 		//clean up the the input field after the information are saved
-  	var customerData = {
-		name:$("#name_id").val().trim(),
-		street1:$("#street1_id").val().trim(),
-		street2:$("#street2_id").val().trim(),
-		city:$("#city_id").val().trim(),
-		state:$("#state_id").val().trim(),
-		zip:$("#zip_id").val().trim(),
-		email:$("#email_id").val().trim(),
-		phone:$("#phone_id").val().trim(),
-		startDate:$("#startDate_id").val().trim(),
-		endDate:$("#endDate_id").val().trim(),
-		period:$("#period_id").val().trim(),
-		rate:$("#rate_id").val().trim(),
-	};
 
   	if (isEdit==0) {
+        var customerData = {
+            name:$("#name_id").val().trim(),
+            street1:$("#street1_id").val().trim(),
+            street2:$("#street2_id").val().trim(),
+            city:$("#city_id").val().trim(),
+            state:$("#state_id").val().trim(),
+            zip:$("#zip_id").val().trim(),
+            email:$("#email_id").val().trim(),
+            phone:$("#phone_id").val().trim(),
+            startDate:$("#startDate_id").val().trim(),
+            endDate:$("#endDate_id").val().trim(),
+            period:$("#period_id").val().trim(),
+            rate:$("#rate_id").val().trim(),
+        };
+
 		database.ref().push(customerData);
 		prepareEventData(customerData);
 		$(".modal-form input, .modal-form textarea").val('');
