@@ -1,11 +1,36 @@
+/* UNIVERSAL STYLES */
 body {
 	background: url(../Images/vintage-pecan-free-stretch-blog-background-cream.jpg);
 }
 
-#header {
-	color: #006400;
+/*  INDEX STYLES */
+
+.addCustomerStyle {
+	float: right;
 }
 
+#addCustomer {
+	margin-bottom: 5px;
+}
+
+#customer-row {
+	margin-top: 10px;
+
+}
+
+/* MAP STYLES */
+
+#map {
+	margin-top: 60px;
+	height: 350px;
+	width:90%;
+	margin: 0 auto;
+	margin-top: 50px;
+	border: 5px solid green;
+	border-radius: 3px;
+}
+
+/* CALENDAR STYLES */
 
 .cal-day{
 	max-height: 300px;
@@ -16,13 +41,4 @@ body {
 .next-seven{
 	max-height: 300px;
 	min-height: 300px;
-}
-
-#addCustomer {
-	margin-bottom: 5px;
-}
-
-#customer-row {
-	margin-top: 10px;
-
 }
