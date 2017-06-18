@@ -3,24 +3,56 @@
 
 <head>
     <title>Great Green Grass App</title>
+    <!-- JQUERY -->
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- Bootswatch Cosmos -->
-    <link rel="stylesheet" type="text/css" href="./Assets/CSS/bootswatch.css">
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/bootswatch.css">
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="./Assets/CSS/style.css">
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <!-- LINK TO WEATHER JS -->
     <script src="./Assets/JS/weather.js"></script>
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/style.css">
+
+    <script src="Assets/lib/moment.js"></script>
+    <!-- WEATHER JS -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaR25Eu2E2D7_2ykdaI5LSoPKJomx3dfE&libraries=geometry,places&sensor=false"></script>
+    <script src="Assets/JS/weather.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- LOGO -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">Great Green Grass</a>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- LOGO -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Great Green Grass</a>
+        </div>
+        <!-- LINKS TO OTHER PAGES -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="land.html">Map</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="weather-container">
+    <div class="row">
+        <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%">
+        </iframe>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row" id="extended-schedule">
+
             </div>
             <!-- LINKS TO OTHER PAGES -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -28,15 +60,94 @@
                     <li><a href="land.html">Map</a></li>
                     <li><a href="calendar.html">Calendar</a></li>
                 </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="weather-container">
-        <div class="row">
-            <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%">
-            </iframe>
         </div>
     </div>
-</body>
+</div>
+<!-- Authorize Calendar Modal -->
+<div class="modal fade" id="AuthorizeCalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="AuthorizeCalModalTitle">Please Authorize Access</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button id="authorize-button" style="display: none;">Authorize</button>
+                <button id="refuse-button" style="display: none;">Don't Authorize</button>
+                <button id="signout-button" style="display: none;">Sign Out</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Review event Modal -->
+<div class="modal fade" id="calEntryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="update-event">Update</button>
+                <button id="remove-event">Remove</button>
+                <h3 class="modal-title" id="calEntryModalTitle">Please Authorize Access</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="calEntryModalBody">
 
+            </div>
+        </div>
+    </div>
+</div>
+<!-- update event Modal -->
+<div class="modal fade" id="calUpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="calUpdateModalTitle">Are You Sure?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="calUpdateModalBody">
+                <div class="form-group">
+                    <label for="startUpdate_id">New Date</label>
+                    <input type="date" class="form-control" id="startUpdate_id">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveEventInfo">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Remove Event Modal -->
+<div class="modal fade" id="calRemoveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="calRemoveModalTitle">Are You Sure?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="calRemoveModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="removeEventInfo">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="Assets/JS/google-calendar-auth.js"></script>
+<script src="Assets/JS/google-calendar-setup.js"></script>
+<script src="Assets/JS/google-calendar-operations.js"></script>
+<script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+</body>
 </html>

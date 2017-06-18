@@ -1,12 +1,12 @@
 $( document ).ready(function() {
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyBfVb_K7kzA1Hee9Y8lBdI3spp9lnxhb48",
-  authDomain: "project1-work-space.firebaseapp.com",
-  databaseURL: "https://project1-work-space.firebaseio.com",
-  projectId: "project1-work-space",
-  storageBucket: "project1-work-space.appspot.com",
-  messagingSenderId: "777786429739"
+    apiKey: "AIzaSyCtqKlasKaY9o0K3A8dLVSwrUs8S8i9gso",
+    authDomain: "boot-3ff6b.firebaseapp.com",
+    databaseURL: "https://boot-3ff6b.firebaseio.com",
+    projectId: "boot-3ff6b",
+    storageBucket: "boot-3ff6b.appspot.com",
+    messagingSenderId: "591583751544"
 };
 firebase.initializeApp(config);
 
@@ -30,22 +30,32 @@ $("#saveCustomerInfo").on("click", function(snap){
   	$(".modal-footer").prepend(showSaved);
 
   	/*if isEdit=0 "Save" button will push new child to database. */
-  	if (isEdit==0) {
-		database.ref().push({
-			name:$("#name_id").val().trim(),
-			street1:$("#street1_id").val().trim(),
-			street2:$("#street2_id").val().trim(),
-			city:$("#city_id").val().trim(),
-			state:$("#state_id").val().trim(),
-			zip:$("#zip_id").val().trim(),
-			email:$("#email_id").val().trim(),
-			phone:$("#phone_id").val().trim(),
-			startDate:$("#startDate_id").val().trim(),
-			endDate:$("#endDate_id").val().trim(),
-			period:$("#period_id").val().trim(),
-			rate:$("#rate_id").val().trim(),
-		});
 		//clean up the the input field after the information are saved
+
+  	if (isEdit==0) {
+        var customerData = {
+            name:$("#name_id").val().trim(),
+            street1:$("#street1_id").val().trim(),
+            street2:$("#street2_id").val().trim(),
+            city:$("#city_id").val().trim(),
+            state:$("#state_id").val().trim(),
+            zip:$("#zip_id").val().trim(),
+            email:$("#email_id").val().trim(),
+            phone:$("#phone_id").val().trim(),
+            startDate:$("#startDate_id").val().trim(),
+            endDate:$("#endDate_id").val().trim(),
+            period:$("#period_id").val().trim(),
+            rate:$("#rate_id").val().trim(),
+        };
+
+        prepareEventData(customerData)
+			.then(function(response){
+                database.ref().push(customerData);
+			}, function(error){
+
+			})
+
+
 		$(".modal-form input, .modal-form textarea").val('');
 	}
 		// if isEdit=1, "save" button will modify existing child
@@ -73,7 +83,7 @@ database.ref().on("value", function(snap){
 	$("#displayCustomerInfo").empty();
 	var sv=snap.val();
 	for (var key in sv) {
-		var thisObject=sv[key];  
+		var thisObject=sv[key];
 		//for each child in the database, do the following
 		var name = thisObject.name;
 		var street1 = thisObject.street1;
@@ -192,7 +202,7 @@ $(document).on("click", ".removeClass", function (snap){  //when remove button i
 
 
 $(document).on("click", ".editClass", function (snap){  //when remove button is clicked
-	isEdit = 1; 
+	isEdit = 1;
 	
 	var name = $(this).siblings().first(); //find info of the row where edit button is clicked, they are used to preload the pop ip window
 	var email = name.next();
@@ -223,7 +233,7 @@ $(document).on("click", ".editClass", function (snap){  //when remove button is 
 	$("#rate_id").val(rate.attr("data-name"));
 
 
-	// find the right child in database 
+	// find the right child in database
 	database.ref().once('value').then(function(snapshot) {
 		var sv=snapshot.val();
 	  	
