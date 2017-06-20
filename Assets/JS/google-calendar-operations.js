@@ -147,13 +147,12 @@ function createExtendedEntriesHtml(additionalEvents) {
 
         if (checkIndex >= 0 && additionalEvents[keys[checkIndex]]) {
             for (var i = 0; i < additionalEvents[keys[checkIndex]].length; i++) {
-                additionalEventTemplate = '<hr>' +
-                    '<p class="cal-entry" ' +
+                additionalEventTemplate = '<p class="cal-entry" ' +
                     'data-date="' + date.format() + '" ' +
                     'data-location="' + additionalEvents[keys[checkIndex]][i].location + '" ' +
                     'data-cal-id="' + additionalEvents[keys[checkIndex]][i].id + '">' +
                     additionalEvents[keys[checkIndex]][i].summary +
-                    '</p>';
+                    '</p>' + '<hr>';
                 $('#date-' + j).append(additionalEventTemplate);
             }
         }
