@@ -52,7 +52,7 @@ body {
 
 .cal-day {
     max-height: 300px;
-    min-height: 300px;
+    min-height: 150px;
 }
 
 .next-seven {
@@ -62,4 +62,11 @@ body {
 
 .panel-heading 4 {
     background-color: #9FD49D;
+}
+
+.dayofmonth {
+    top: 8px;
+    left: 12px;
+    position: absolute;
+    font-size: 20px;
 }
