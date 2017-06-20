@@ -126,7 +126,7 @@ function createExtendedEntriesHtml(additionalEvents) {
     for (var j = 0; j < 36; j++) {
         date = moment().add(j, 'days');
 
-        var baseTemplate = '<div class="panel panel-default col-md-2 col-sm-4 col-xs-6">' +
+        var baseTemplate = '<div class="panel panel-default col-xs-6 col-sm-4 col-md-2">' +
             '<div class="panel-heading 4" id="date-heading-4">' +
             '<div class="dayofmonth">' + date.date() +
             '</div>' +
