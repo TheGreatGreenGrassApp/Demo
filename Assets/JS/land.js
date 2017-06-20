@@ -1,11 +1,12 @@
+
 // Firebase call
 var config = {
-    apiKey: "AIzaSyA21cA43E8JvGw-nZrN2ZgSMU6IJWjKiUQ",
-    authDomain: "project1-work-space.firebaseapp.com",
-    databaseURL: "https://project1-work-space.firebaseio.com",
-    projectId: "project1-work-space",
-    storageBucket: "project1-work-space.appspot.com",
-    messagingSenderId: "777786429739"
+    apiKey: "AIzaSyCtqKlasKaY9o0K3A8dLVSwrUs8S8i9gso",
+    authDomain: "boot-3ff6b.firebaseapp.com",
+    databaseURL: "https://boot-3ff6b.firebaseio.com",
+    projectId: "boot-3ff6b",
+    storageBucket: "boot-3ff6b.appspot.com",
+    messagingSenderId: "591583751544"
 };
 
 firebase.initializeApp(config);
@@ -62,3 +63,6 @@ function initAutocomplete() {
     });
     window.mapInstance = map;
 };
+
+
+
