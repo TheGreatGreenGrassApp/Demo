@@ -3,6 +3,14 @@ body {
 	background: url(../Images/vintage-pecan-free-stretch-blog-background-cream.jpg);
 }
 
+.brand-logo {
+    font-family: 'Vollkorn', serif;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+    letter-spacing: 2px;
+}
+
 /*  INDEX STYLES */
 
 .addCustomerStyle {
