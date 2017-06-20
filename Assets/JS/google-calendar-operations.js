@@ -134,7 +134,7 @@ function createExtendedEntriesHtml(additionalEvents) {
             '</div>' +
             '<div class="shortdate text-muted">' + date.format('MMM, YYYY') +
             '</div></div>' +
-            '<div class="cal-day  panel-body" ' +
+            '<div class="cal-day panel-body" ' +
             'id="date-' + j +
             '"></div></div>';
 
