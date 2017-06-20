@@ -20,7 +20,11 @@ body {
 }
 
 #addCustomer {
-    margin-bottom: 5px;
+    margin-bottom: 12px;
+    min-height: 0px;
+    background-color: #8acb88;
+    border-color: #8acb88;
+    font-weight: bold;
 }
 
 #customer-row {
@@ -80,4 +84,10 @@ hr {
 
 .panel {
     margin-bottom: 10px;
+}
+
+.customer-panel {
+    padding: 13px;
+    margin: 0px;
+    padding: 13px;
 }
