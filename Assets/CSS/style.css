@@ -19,7 +19,7 @@ body {
     float: right;
 }
 
-#addCustomer {
+#addCustomer>button {
     margin-bottom: 12px;
     min-height: 0px;
     background-color: #8acb88;
