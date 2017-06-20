@@ -1,6 +1,7 @@
 /* UNIVERSAL STYLES */
+
 body {
-	background: url(../Images/vintage-pecan-free-stretch-blog-background-cream.jpg);
+    background: url(../Images/vintage-pecan-free-stretch-blog-background-cream.jpg);
 }
 
 .brand-logo {
@@ -11,42 +12,51 @@ body {
     letter-spacing: 2px;
 }
 
+
 /*  INDEX STYLES */
 
 .addCustomerStyle {
-    float: right; 
+    float: right;
 }
 
 #addCustomer {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 #customer-row {
-	margin-top: 10px;
-
+    margin-top: 10px;
 }
+
+.panel-default > .panel-heading {
+    background-color: #9FD49D;
+}
+
 
 /* MAP STYLES */
 
 #map {
     margin-top: 60px;
     height: 450px;
-    width:90%;
+    width: 90%;
     margin: 0 auto;
     margin-top: 50px;
-    border: 5px solid green;
+    border: 5px solid #9FD49D;
     border-radius: 3px;
-      }
-
-/* CALENDAR STYLES */
-
-.cal-day{
-	max-height: 300px;
-	min-height: 300px;
 }
 
 
-.next-seven{
-	max-height: 300px;
-	min-height: 300px;
+/* CALENDAR STYLES */
+
+.cal-day {
+    max-height: 300px;
+    min-height: 300px;
+}
+
+.next-seven {
+    max-height: 300px;
+    min-height: 300px;
+}
+
+.panel-heading 4 {
+    background-color: #9FD49D;
 }
