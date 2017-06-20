@@ -32,6 +32,7 @@ body {
     border-bottom: 6px solid #8acb88;
     padding: 10px 10px 10px 48px;
     margin: 0px -15px;
+    color: #FFF;
 }
 
 
@@ -53,6 +54,7 @@ body {
 .cal-day {
     max-height: 300px;
     min-height: 150px;
+    margin: 0px -15px;
 }
 
 .next-seven {
@@ -69,4 +71,13 @@ body {
     left: 12px;
     position: absolute;
     font-size: 20px;
+}
+
+hr {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.panel {
+    margin-bottom: 10px;
 }
