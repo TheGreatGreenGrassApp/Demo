@@ -90,3 +90,7 @@ hr {
     margin: 0px;
     padding: 13px;
 }
+
+.cal-entry:hover {
+    cursor: pointer;
+}
